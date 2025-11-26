@@ -1,0 +1,3286 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "slug"
+      }
+    ],
+    "name": "media.tag",
+    "type": "document"
+  },
+  {
+    "options": {
+      "apiVersion": "2025-02-19",
+      "languages": [
+        {
+          "id": "nl",
+          "title": "Nederlands"
+        },
+        {
+          "id": "en",
+          "title": "English"
+        }
+      ]
+    },
+    "validation": [
+      {
+        "rules": [
+          {
+            "flag": "custom"
+          }
+        ],
+        "level": "error"
+      }
+    ],
+    "of": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "type": "internationalizedArrayReferenceValue",
+        "title": "Internationalized array [object Object]"
+      }
+    ],
+    "name": "internationalizedArrayReference",
+    "type": "array",
+    "title": "Internationalized array"
+  },
+  {
+    "fields": [
+      {
+        "weak": true,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "villa"
+          },
+          {
+            "type": "blogPost"
+          },
+          {
+            "type": "article"
+          },
+          {
+            "type": "homePage"
+          },
+          {
+            "type": "aboutPage"
+          },
+          {
+            "type": "contactPage"
+          },
+          {
+            "type": "villasPage"
+          },
+          {
+            "type": "morairaPage"
+          },
+          {
+            "type": "siteSettings"
+          },
+          {
+            "type": "navigation"
+          },
+          {
+            "type": "footer"
+          }
+        ],
+        "name": "value",
+        "type": "reference"
+      }
+    ],
+    "name": "internationalizedArrayReferenceValue",
+    "type": "object",
+    "title": "Internationalized array [object Object]"
+  },
+  {
+    "liveEdit": true,
+    "fields": [
+      {
+        "options": {
+          "apiVersion": "2025-02-19",
+          "languages": [
+            {
+              "id": "nl",
+              "title": "Nederlands"
+            },
+            {
+              "id": "en",
+              "title": "English"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "translations",
+        "type": "internationalizedArrayReference"
+      },
+      {
+        "options": {
+          "list": [
+            "villa",
+            "blogPost",
+            "article",
+            "homePage",
+            "aboutPage",
+            "contactPage",
+            "villasPage",
+            "morairaPage",
+            "siteSettings",
+            "navigation",
+            "footer"
+          ]
+        },
+        "description": "Optional: Used to filter the reference fields above so all translations share the same types.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "readOnly": "conditional",
+        "name": "schemaTypes",
+        "type": "array"
+      }
+    ],
+    "name": "translation.metadata",
+    "type": "document",
+    "title": "Translation metadata"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "siteName",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "siteName"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL identifier for this language version",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "siteTagline",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "siteUrl",
+        "type": "url",
+        "title": "Site URL"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "logo",
+        "type": "image"
+      },
+      {
+        "name": "favicon",
+        "type": "image"
+      },
+      {
+        "fields": [
+          {
+            "name": "email",
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "type": "string"
+          },
+          {
+            "name": "whatsapp",
+            "type": "string",
+            "title": "WhatsApp"
+          },
+          {
+            "rows": 3,
+            "name": "address",
+            "type": "text"
+          }
+        ],
+        "name": "contact",
+        "type": "object",
+        "title": "Contact Information"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "facebook",
+            "type": "url"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "instagram",
+            "type": "url"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "twitter",
+            "type": "url",
+            "title": "Twitter/X"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "linkedin",
+            "type": "url",
+            "title": "LinkedIn"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "youtube",
+            "type": "url",
+            "title": "YouTube"
+          }
+        ],
+        "name": "social",
+        "type": "object",
+        "title": "Social Media"
+      },
+      {
+        "fields": [
+          {
+            "name": "metaTitle",
+            "type": "string",
+            "title": "Default Meta Title"
+          },
+          {
+            "rows": 3,
+            "name": "metaDescription",
+            "type": "text",
+            "title": "Default Meta Description"
+          },
+          {
+            "options": {
+              "layout": "tags"
+            },
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "keywords",
+            "type": "array",
+            "title": "Default Keywords"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "ogImage",
+            "type": "image",
+            "title": "Default Social Share Image"
+          }
+        ],
+        "name": "defaultSeo",
+        "type": "object",
+        "title": "Default SEO Settings"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "phone",
+        "type": "string",
+        "title": "Phone Number"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "title": "Email Address"
+      },
+      {
+        "rows": 3,
+        "name": "address",
+        "type": "text"
+      },
+      {
+        "fields": [
+          {
+            "name": "lat",
+            "type": "number",
+            "title": "Latitude"
+          },
+          {
+            "name": "lng",
+            "type": "number",
+            "title": "Longitude"
+          }
+        ],
+        "name": "coordinates",
+        "type": "object",
+        "title": "Map Coordinates"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "facebook",
+            "type": "url"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "instagram",
+            "type": "url"
+          },
+          {
+            "name": "whatsapp",
+            "type": "string",
+            "title": "WhatsApp Number"
+          }
+        ],
+        "name": "socialLinks",
+        "type": "object",
+        "title": "Social Media Links"
+      }
+    ],
+    "name": "contactInfo",
+    "type": "document",
+    "title": "Contact Information"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Internal name for this navigation",
+        "name": "title",
+        "type": "string",
+        "title": "Navigation Name"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL identifier for this language version",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "description": "URL path (e.g., /villas, /contact)",
+                "name": "href",
+                "type": "string",
+                "title": "Link"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "label",
+                        "type": "string"
+                      },
+                      {
+                        "name": "href",
+                        "type": "string",
+                        "title": "Link"
+                      },
+                      {
+                        "name": "description",
+                        "type": "string",
+                        "title": "Description (optional)"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "name": "children",
+                "type": "array",
+                "title": "Dropdown Items (optional)"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "mainNav",
+        "type": "array",
+        "title": "Main Navigation"
+      },
+      {
+        "fields": [
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "href",
+            "type": "string",
+            "title": "Link"
+          }
+        ],
+        "name": "ctaButton",
+        "type": "object",
+        "title": "CTA Button (optional)"
+      },
+      {
+        "fields": [
+          {
+            "initialValue": "Nederlands",
+            "name": "nl",
+            "type": "string",
+            "title": "Nederlands Label"
+          },
+          {
+            "initialValue": "English",
+            "name": "en",
+            "type": "string",
+            "title": "English Label"
+          }
+        ],
+        "name": "languageLabels",
+        "type": "object",
+        "title": "Language Switcher Labels"
+      }
+    ],
+    "name": "navigation",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Internal name for this footer",
+        "name": "title",
+        "type": "string",
+        "title": "Footer Name"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL identifier for this language version",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 2,
+        "description": "Short description shown in footer",
+        "name": "tagline",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Column Title"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "label",
+                        "type": "string"
+                      },
+                      {
+                        "name": "href",
+                        "type": "string",
+                        "title": "Link"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "name": "links",
+                "type": "array"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "columns",
+        "type": "array",
+        "title": "Footer Columns"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "name": "emailLabel",
+            "type": "string"
+          },
+          {
+            "name": "phoneLabel",
+            "type": "string"
+          },
+          {
+            "name": "addressLabel",
+            "type": "string"
+          }
+        ],
+        "name": "contactSection",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "name": "copyright",
+            "type": "string",
+            "title": "Copyright Text"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "label",
+                    "type": "string"
+                  },
+                  {
+                    "name": "href",
+                    "type": "string",
+                    "title": "Link"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "links",
+            "type": "array",
+            "title": "Legal Links"
+          }
+        ],
+        "name": "bottomBar",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "initialValue": false,
+            "name": "enabled",
+            "type": "boolean",
+            "title": "Show Newsletter Signup"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "name": "placeholder",
+            "type": "string",
+            "title": "Input Placeholder"
+          },
+          {
+            "name": "buttonText",
+            "type": "string"
+          }
+        ],
+        "name": "newsletterSection",
+        "type": "object",
+        "title": "Newsletter Section (optional)"
+      }
+    ],
+    "name": "footer",
+    "type": "document"
+  },
+  {
+    "of": [
+      {
+        "marks": {
+          "annotations": [
+            {
+              "fields": [
+                {
+                  "validation": [
+                    {
+                      "rules": [
+                        {
+                          "flag": "uri",
+                          "constraint": {
+                            "options": {
+                              "scheme": [
+                                "/^http$/",
+                                "/^https$/"
+                              ],
+                              "allowRelative": false,
+                              "relativeOnly": false,
+                              "allowCredentials": false
+                            }
+                          }
+                        }
+                      ],
+                      "level": "error"
+                    }
+                  ],
+                  "name": "href",
+                  "type": "url",
+                  "title": "URL"
+                },
+                {
+                  "initialValue": false,
+                  "name": "openInNewTab",
+                  "type": "boolean",
+                  "title": "Open in new tab"
+                }
+              ],
+              "name": "link",
+              "type": "object"
+            }
+          ],
+          "decorators": [
+            {
+              "value": "strong",
+              "title": "Bold"
+            },
+            {
+              "value": "em",
+              "title": "Italic"
+            },
+            {
+              "value": "underline",
+              "title": "Underline"
+            }
+          ]
+        },
+        "lists": [
+          {
+            "value": "bullet",
+            "title": "Bulleted list"
+          },
+          {
+            "value": "number",
+            "title": "Numbered list"
+          }
+        ],
+        "styles": [
+          {
+            "value": "normal",
+            "title": "Normal"
+          },
+          {
+            "value": "h2",
+            "title": "H2"
+          },
+          {
+            "value": "h3",
+            "title": "H3"
+          },
+          {
+            "value": "h4",
+            "title": "H4"
+          },
+          {
+            "value": "blockquote",
+            "title": "Quote"
+          }
+        ],
+        "of": [],
+        "type": "block"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt text"
+          },
+          {
+            "name": "caption",
+            "type": "string"
+          }
+        ],
+        "type": "image"
+      }
+    ],
+    "name": "portableText",
+    "type": "array",
+    "title": "Rich Text"
+  },
+  {
+    "options": {
+      "collapsible": true,
+      "collapsed": false
+    },
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "warning",
+            "message": "Meta titles should be 50-60 characters"
+          }
+        ],
+        "description": "Custom title for search engines (50-60 characters)",
+        "name": "metaTitle",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "warning",
+            "message": "Meta descriptions should be 150-160 characters"
+          }
+        ],
+        "description": "Description for search results (150-160 characters)",
+        "name": "metaDescription",
+        "type": "text"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "keywords",
+        "type": "array",
+        "title": "Focus Keywords"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Image for social media sharing (1200x630px recommended)",
+        "name": "ogImage",
+        "type": "image",
+        "title": "Social Share Image"
+      }
+    ],
+    "name": "seo",
+    "type": "object",
+    "title": "SEO & Metadata"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Internal title for this page version",
+        "name": "title",
+        "type": "string",
+        "title": "Page Title (Internal)"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL path for this language version (leave empty for root \"/\")",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "rows": 3,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image",
+            "title": "Background Image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          },
+          {
+            "name": "ctaText",
+            "type": "string",
+            "title": "CTA Button Text"
+          },
+          {
+            "name": "ctaLink",
+            "type": "string",
+            "title": "CTA Button Link"
+          }
+        ],
+        "name": "hero",
+        "type": "object",
+        "title": "Hero Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text",
+            "title": "Section Description"
+          },
+          {
+            "name": "viewAllText",
+            "type": "string",
+            "title": "View All Button Text"
+          },
+          {
+            "name": "viewAllLink",
+            "type": "string"
+          }
+        ],
+        "name": "featuredVillas",
+        "type": "object",
+        "title": "Featured Villas Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text",
+            "title": "Section Description"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "icon",
+                    "type": "string",
+                    "title": "Icon Name"
+                  },
+                  {
+                    "name": "title",
+                    "type": "string"
+                  },
+                  {
+                    "rows": 2,
+                    "name": "description",
+                    "type": "text"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "items",
+            "type": "array",
+            "title": "Feature Items"
+          }
+        ],
+        "name": "features",
+        "type": "object",
+        "title": "Features Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 3,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "bulletPoints",
+            "type": "array"
+          },
+          {
+            "name": "ctaText",
+            "type": "string",
+            "title": "CTA Button Text"
+          },
+          {
+            "name": "ctaLink",
+            "type": "string",
+            "title": "CTA Button Link"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image",
+            "title": "Section Image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          }
+        ],
+        "name": "morairaSection",
+        "type": "object"
+      }
+    ],
+    "name": "homePage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL path (e.g., \"over-ons\" for NL, \"about-us\" for EN)",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "fields": [
+          {
+            "name": "badge",
+            "type": "string",
+            "title": "Badge Text"
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Hero Title"
+          },
+          {
+            "rows": 3,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image",
+            "title": "Hero Image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          }
+        ],
+        "name": "hero",
+        "type": "object",
+        "title": "Hero Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "of": [
+              {
+                "rows": 3,
+                "type": "text"
+              }
+            ],
+            "name": "paragraphs",
+            "type": "array",
+            "title": "Story Paragraphs"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image",
+            "title": "Story Image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          },
+          {
+            "name": "ctaText",
+            "type": "string",
+            "title": "CTA Button Text"
+          },
+          {
+            "name": "ctaLink",
+            "type": "string",
+            "title": "CTA Link"
+          }
+        ],
+        "name": "story",
+        "type": "object",
+        "title": "Our Story Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "options": {
+                      "list": [
+                        {
+                          "title": "Heart",
+                          "value": "heart"
+                        },
+                        {
+                          "title": "Home",
+                          "value": "home"
+                        },
+                        {
+                          "title": "Users",
+                          "value": "users"
+                        },
+                        {
+                          "title": "Star",
+                          "value": "star"
+                        }
+                      ]
+                    },
+                    "name": "icon",
+                    "type": "string",
+                    "title": "Icon Name"
+                  },
+                  {
+                    "name": "title",
+                    "type": "string"
+                  },
+                  {
+                    "rows": 2,
+                    "name": "description",
+                    "type": "text"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "items",
+            "type": "array",
+            "title": "Values"
+          }
+        ],
+        "name": "values",
+        "type": "object",
+        "title": "Our Values Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "string",
+                    "title": "Guest Name"
+                  },
+                  {
+                    "name": "date",
+                    "type": "string"
+                  },
+                  {
+                    "validation": [
+                      {
+                        "rules": [
+                          {
+                            "flag": "min",
+                            "constraint": 1
+                          },
+                          {
+                            "flag": "max",
+                            "constraint": 5
+                          }
+                        ],
+                        "level": "error"
+                      }
+                    ],
+                    "name": "rating",
+                    "type": "number"
+                  },
+                  {
+                    "rows": 3,
+                    "name": "text",
+                    "type": "text",
+                    "title": "Testimonial Text"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "items",
+            "type": "array",
+            "title": "Testimonials"
+          }
+        ],
+        "name": "testimonials",
+        "type": "object",
+        "title": "Testimonials Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "CTA Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text",
+            "title": "CTA Description"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "label",
+                    "type": "string",
+                    "title": "Button Label"
+                  },
+                  {
+                    "name": "href",
+                    "type": "string",
+                    "title": "Button Link"
+                  },
+                  {
+                    "options": {
+                      "list": [
+                        {
+                          "title": "Primary",
+                          "value": "primary"
+                        },
+                        {
+                          "title": "Secondary",
+                          "value": "secondary"
+                        },
+                        {
+                          "title": "Outline",
+                          "value": "outline"
+                        }
+                      ]
+                    },
+                    "name": "variant",
+                    "type": "string",
+                    "title": "Button Variant"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "buttons",
+            "type": "array"
+          }
+        ],
+        "name": "cta",
+        "type": "object",
+        "title": "Call to Action Section"
+      }
+    ],
+    "name": "aboutPage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL path for this page",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "fields": [
+          {
+            "name": "badge",
+            "type": "string",
+            "title": "Badge Text"
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Hero Title"
+          },
+          {
+            "rows": 3,
+            "name": "description",
+            "type": "text"
+          }
+        ],
+        "name": "hero",
+        "type": "object",
+        "title": "Hero Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "phoneLabel",
+            "type": "string"
+          },
+          {
+            "name": "emailLabel",
+            "type": "string"
+          },
+          {
+            "name": "locationLabel",
+            "type": "string"
+          }
+        ],
+        "name": "contactInfo",
+        "type": "object",
+        "title": "Contact Information Labels"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Placeholder Title"
+              },
+              {
+                "rows": 2,
+                "name": "description",
+                "type": "text",
+                "title": "Placeholder Description"
+              }
+            ],
+            "name": "placeholder",
+            "type": "object",
+            "title": "Placeholder Content"
+          }
+        ],
+        "name": "mapSection",
+        "type": "object"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "question",
+                "type": "string"
+              },
+              {
+                "rows": 3,
+                "name": "answer",
+                "type": "text"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "faq",
+        "type": "array",
+        "title": "FAQ Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "nameLabel",
+            "type": "string",
+            "title": "Name Field Label"
+          },
+          {
+            "name": "namePlaceholder",
+            "type": "string",
+            "title": "Name Field Placeholder"
+          },
+          {
+            "name": "emailLabel",
+            "type": "string",
+            "title": "Email Field Label"
+          },
+          {
+            "name": "emailPlaceholder",
+            "type": "string",
+            "title": "Email Field Placeholder"
+          },
+          {
+            "name": "phoneLabel",
+            "type": "string",
+            "title": "Phone Field Label"
+          },
+          {
+            "name": "phonePlaceholder",
+            "type": "string",
+            "title": "Phone Field Placeholder"
+          },
+          {
+            "name": "messageLabel",
+            "type": "string",
+            "title": "Message Field Label"
+          },
+          {
+            "name": "messagePlaceholder",
+            "type": "string",
+            "title": "Message Field Placeholder"
+          },
+          {
+            "name": "submitButton",
+            "type": "string",
+            "title": "Submit Button Text"
+          },
+          {
+            "rows": 2,
+            "name": "successMessage",
+            "type": "text"
+          },
+          {
+            "rows": 2,
+            "name": "errorMessage",
+            "type": "text"
+          }
+        ],
+        "name": "formLabels",
+        "type": "object",
+        "title": "Form Labels & Placeholders"
+      }
+    ],
+    "name": "contactPage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL path for this page",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Hero Title"
+          },
+          {
+            "rows": 2,
+            "name": "subtitle",
+            "type": "text"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image",
+            "title": "Hero Image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          }
+        ],
+        "name": "hero",
+        "type": "object",
+        "title": "Hero Section"
+      },
+      {
+        "rows": 3,
+        "name": "introduction",
+        "type": "text"
+      },
+      {
+        "fields": [
+          {
+            "name": "allVillas",
+            "type": "string",
+            "title": "\"All Villas\" Label"
+          },
+          {
+            "name": "bedrooms",
+            "type": "string",
+            "title": "Bedrooms Filter Label"
+          },
+          {
+            "name": "guests",
+            "type": "string",
+            "title": "Guests Filter Label"
+          },
+          {
+            "name": "priceRange",
+            "type": "string",
+            "title": "Price Range Label"
+          },
+          {
+            "name": "amenities",
+            "type": "string",
+            "title": "Amenities Filter Label"
+          },
+          {
+            "name": "sortBy",
+            "type": "string",
+            "title": "Sort By Label"
+          },
+          {
+            "name": "noResults",
+            "type": "string",
+            "title": "No Results Message"
+          }
+        ],
+        "name": "filterLabels",
+        "type": "object"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "value",
+                "type": "string"
+              },
+              {
+                "name": "label",
+                "type": "string"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "sortOptions",
+        "type": "array"
+      }
+    ],
+    "name": "villasPage",
+    "type": "document",
+    "title": "Villas Listing Page"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL path for this page",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Hero Title"
+          },
+          {
+            "rows": 3,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image",
+            "title": "Hero Image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          }
+        ],
+        "name": "hero",
+        "type": "object",
+        "title": "Hero Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "of": [
+              {
+                "rows": 3,
+                "type": "text"
+              }
+            ],
+            "name": "paragraphs",
+            "type": "array"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "options": {
+                      "list": [
+                        {
+                          "title": "Sun",
+                          "value": "sun"
+                        },
+                        {
+                          "title": "Users",
+                          "value": "users"
+                        }
+                      ]
+                    },
+                    "name": "icon",
+                    "type": "string"
+                  },
+                  {
+                    "name": "label",
+                    "type": "string"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "stats",
+            "type": "array",
+            "title": "Statistics"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "image",
+            "type": "image"
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "title": "Image Alt Text"
+          }
+        ],
+        "name": "introduction",
+        "type": "object",
+        "title": "Introduction Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "title",
+                    "type": "string"
+                  },
+                  {
+                    "rows": 3,
+                    "name": "description",
+                    "type": "text"
+                  },
+                  {
+                    "options": {
+                      "hotspot": true
+                    },
+                    "name": "image",
+                    "type": "image"
+                  },
+                  {
+                    "name": "imageAlt",
+                    "type": "string",
+                    "title": "Image Alt Text"
+                  },
+                  {
+                    "options": {
+                      "list": [
+                        {
+                          "title": "Waves",
+                          "value": "waves"
+                        },
+                        {
+                          "title": "Mountain",
+                          "value": "mountain"
+                        },
+                        {
+                          "title": "Camera",
+                          "value": "camera"
+                        }
+                      ]
+                    },
+                    "name": "icon",
+                    "type": "string"
+                  },
+                  {
+                    "name": "distance",
+                    "type": "string"
+                  },
+                  {
+                    "name": "badge",
+                    "type": "string",
+                    "title": "Badge Text (optional)"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "items",
+            "type": "array",
+            "title": "Attractions"
+          }
+        ],
+        "name": "attractions",
+        "type": "object",
+        "title": "Attractions Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Subsection Title"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "title",
+                        "type": "string",
+                        "title": "Activity Title"
+                      },
+                      {
+                        "rows": 2,
+                        "name": "description",
+                        "type": "text"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "name": "items",
+                "type": "array",
+                "title": "Activities"
+              }
+            ],
+            "name": "water",
+            "type": "object",
+            "title": "Water Activities"
+          },
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Subsection Title"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "title",
+                        "type": "string",
+                        "title": "Activity Title"
+                      },
+                      {
+                        "rows": 2,
+                        "name": "description",
+                        "type": "text"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "name": "items",
+                "type": "array",
+                "title": "Activities"
+              }
+            ],
+            "name": "land",
+            "type": "object",
+            "title": "Land Activities"
+          }
+        ],
+        "name": "activities",
+        "type": "object",
+        "title": "Activities Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "title",
+                    "type": "string"
+                  },
+                  {
+                    "rows": 2,
+                    "name": "description",
+                    "type": "text"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "options",
+            "type": "array",
+            "title": "Dining Options"
+          }
+        ],
+        "name": "dining",
+        "type": "object",
+        "title": "Dining Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Section Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text"
+          },
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Subsection Title"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "title",
+                        "type": "string"
+                      },
+                      {
+                        "name": "duration",
+                        "type": "string"
+                      },
+                      {
+                        "rows": 2,
+                        "name": "description",
+                        "type": "text"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "name": "options",
+                "type": "array"
+              }
+            ],
+            "name": "flight",
+            "type": "object",
+            "title": "By Plane"
+          },
+          {
+            "fields": [
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Subsection Title"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "title",
+                        "type": "string"
+                      },
+                      {
+                        "name": "duration",
+                        "type": "string"
+                      },
+                      {
+                        "rows": 2,
+                        "name": "description",
+                        "type": "text"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "name": "options",
+                "type": "array"
+              }
+            ],
+            "name": "car",
+            "type": "object",
+            "title": "By Car"
+          }
+        ],
+        "name": "transportation",
+        "type": "object",
+        "title": "Transportation Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "CTA Title"
+          },
+          {
+            "rows": 2,
+            "name": "description",
+            "type": "text",
+            "title": "CTA Description"
+          },
+          {
+            "of": [
+              {
+                "fields": [
+                  {
+                    "name": "label",
+                    "type": "string",
+                    "title": "Button Label"
+                  },
+                  {
+                    "name": "href",
+                    "type": "string",
+                    "title": "Button Link"
+                  },
+                  {
+                    "options": {
+                      "list": [
+                        {
+                          "title": "Primary",
+                          "value": "primary"
+                        },
+                        {
+                          "title": "Secondary",
+                          "value": "secondary"
+                        }
+                      ]
+                    },
+                    "name": "variant",
+                    "type": "string",
+                    "title": "Button Variant"
+                  }
+                ],
+                "type": "object"
+              }
+            ],
+            "name": "buttons",
+            "type": "array"
+          }
+        ],
+        "name": "cta",
+        "type": "object",
+        "title": "Call to Action Section"
+      }
+    ],
+    "name": "morairaPage",
+    "type": "document",
+    "title": "Moraira Destination Page"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Villa Name"
+      },
+      {
+        "options": {
+          "source": "name"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL-friendly identifier. The language prefix will be added automatically.",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "description": "Brief description for cards and previews",
+        "name": "shortDescription",
+        "type": "text"
+      },
+      {
+        "description": "Detailed description with rich text",
+        "name": "fullDescription",
+        "type": "portableText"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "mainImage",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "name": "alt",
+                "type": "string",
+                "title": "Alt Text"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array",
+        "title": "Gallery Images"
+      },
+      {
+        "fields": [
+          {
+            "name": "address",
+            "type": "string",
+            "title": "Address/Area"
+          },
+          {
+            "name": "city",
+            "type": "string"
+          },
+          {
+            "fields": [
+              {
+                "name": "lat",
+                "type": "number",
+                "title": "Latitude"
+              },
+              {
+                "name": "lng",
+                "type": "number",
+                "title": "Longitude"
+              }
+            ],
+            "name": "coordinates",
+            "type": "object"
+          }
+        ],
+        "name": "location",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "name": "perWeek",
+            "type": "number",
+            "title": "Price per Week"
+          },
+          {
+            "name": "perNight",
+            "type": "number",
+            "title": "Price per Night"
+          },
+          {
+            "options": {
+              "list": [
+                "EUR",
+                "USD",
+                "GBP"
+              ]
+            },
+            "initialValue": "EUR",
+            "name": "currency",
+            "type": "string"
+          },
+          {
+            "name": "cleaningFee",
+            "type": "number"
+          },
+          {
+            "name": "securityDeposit",
+            "type": "number"
+          }
+        ],
+        "name": "pricing",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "name": "guests",
+            "type": "number",
+            "title": "Max Guests"
+          },
+          {
+            "name": "bedrooms",
+            "type": "number"
+          },
+          {
+            "name": "bathrooms",
+            "type": "number"
+          }
+        ],
+        "name": "capacity",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "name": "average",
+            "type": "number",
+            "title": "Average Rating"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "title": "Number of Reviews"
+          }
+        ],
+        "name": "rating",
+        "type": "object"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "amenity"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to amenity"
+          }
+        ],
+        "name": "amenities",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "icon",
+                "type": "string",
+                "title": "Icon Name"
+              },
+              {
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "name": "description",
+                "type": "text"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "highlights",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "houseRules",
+        "type": "array"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Available",
+              "value": "available"
+            },
+            {
+              "title": "Booked",
+              "value": "booked"
+            },
+            {
+              "title": "Maintenance",
+              "value": "maintenance"
+            }
+          ]
+        },
+        "initialValue": "available",
+        "name": "availability",
+        "type": "string",
+        "title": "Availability Status"
+      },
+      {
+        "description": "Lower numbers appear first",
+        "name": "order",
+        "type": "number",
+        "title": "Display Order"
+      }
+    ],
+    "name": "villa",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "description": "Icon name from Lucide icons (e.g., wifi, car, waves)",
+        "name": "icon",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "General",
+              "value": "general"
+            },
+            {
+              "title": "Kitchen",
+              "value": "kitchen"
+            },
+            {
+              "title": "Bathroom",
+              "value": "bathroom"
+            },
+            {
+              "title": "Bedroom",
+              "value": "bedroom"
+            },
+            {
+              "title": "Outdoor",
+              "value": "outdoor"
+            },
+            {
+              "title": "Entertainment",
+              "value": "entertainment"
+            },
+            {
+              "title": "Safety",
+              "value": "safety"
+            }
+          ]
+        },
+        "name": "category",
+        "type": "string"
+      }
+    ],
+    "name": "amenity",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Guest Name"
+      },
+      {
+        "description": "e.g., \"London, UK\"",
+        "name": "location",
+        "type": "string",
+        "title": "Guest Location"
+      },
+      {
+        "description": "e.g., \"August 2024\"",
+        "name": "date",
+        "type": "string",
+        "title": "Review Date"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "rating",
+        "type": "number"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "text",
+        "type": "text",
+        "title": "Review Text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image",
+        "title": "Guest Photo"
+      },
+      {
+        "to": [
+          {
+            "type": "villa"
+          }
+        ],
+        "name": "villa",
+        "type": "reference"
+      },
+      {
+        "initialValue": false,
+        "description": "Only approved reviews are shown on the website",
+        "name": "approved",
+        "type": "boolean"
+      }
+    ],
+    "name": "review",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "options": {
+          "collapsible": true
+        },
+        "fields": [
+          {
+            "name": "metaTitle",
+            "type": "string"
+          },
+          {
+            "rows": 3,
+            "name": "metaDescription",
+            "type": "text"
+          },
+          {
+            "options": {
+              "layout": "tags"
+            },
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "keywords",
+            "type": "array"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "name": "ogImage",
+            "type": "image",
+            "title": "Social Share Image"
+          }
+        ],
+        "name": "seo",
+        "type": "object",
+        "title": "SEO & Metadata"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "description": "Brief summary for previews",
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "mainImage",
+        "type": "image"
+      },
+      {
+        "name": "body",
+        "type": "portableText",
+        "title": "Content"
+      },
+      {
+        "to": [
+          {
+            "type": "author"
+          }
+        ],
+        "name": "author",
+        "type": "reference"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "category"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to category"
+          }
+        ],
+        "name": "categories",
+        "type": "array"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "blogPost",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "language",
+        "type": "string"
+      },
+      {
+        "options": {
+          "collapsible": true,
+          "collapsed": false
+        },
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO & Metadata"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL path. Language prefix will be added automatically (e.g., /artikelen/slug for NL, /articles/slug for EN)",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "description": "Brief summary for previews and SEO",
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "mainImage",
+        "type": "image"
+      },
+      {
+        "name": "body",
+        "type": "portableText",
+        "title": "Content"
+      },
+      {
+        "to": [
+          {
+            "type": "author"
+          }
+        ],
+        "name": "author",
+        "type": "reference"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "category"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to category"
+          }
+        ],
+        "name": "categories",
+        "type": "array"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean"
+      }
+    ],
+    "name": "article",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "name"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image",
+        "title": "Photo"
+      },
+      {
+        "rows": 4,
+        "name": "bio",
+        "type": "text"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      }
+    ],
+    "name": "author",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 2,
+        "name": "description",
+        "type": "text"
+      }
+    ],
+    "name": "category",
+    "type": "document"
+  }
+]
