@@ -65,11 +65,15 @@ const translatableTypes = [
   'footer',
 ]
 
+// Hardcoded for Sanity Studio deployment (env vars not available at runtime)
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'd3soxd2y'
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+
 export default defineConfig({
   name: 'villa-moraira',
   title: 'Villa Moraira CMS',
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  projectId,
+  dataset,
   basePath: '/studio',
   plugins: [
     structureTool({ 
