@@ -26,6 +26,7 @@ export default function RootLayout({
           type="font/ttf"
           crossOrigin="anonymous"
         />
+        <script src="https://cdn.bookzo.nl/bookzo-elements/bookzo-elements.js" async defer />
       </head>
       <body className="font-sans antialiased">
         <ScrollToTop />
