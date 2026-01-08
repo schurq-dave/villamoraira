@@ -129,11 +129,19 @@ export default async function ContactPage({ params }: ContactPageProps) {
     },
   }
 
-  const organizationSchema = generateOrganizationSchema()
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
   const webPageSchema = generateWebPageSchema(
     pageData.seo.metaTitle,
     pageData.seo.metaDescription,
-    `${SITE_URL}/${lang}/contact`,
+    `${siteUrl}/${lang}/contact`,
   )
 
   const faqSchema = generateFAQPageSchema(pageData.faq)
@@ -141,7 +149,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `/${lang}` },
     { name: "Contact", url: `/${lang}/contact` },
-  ])
+  ], siteUrl)
 
   return (
     <ContactClientPageEN

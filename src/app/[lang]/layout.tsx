@@ -3,7 +3,11 @@ import { i18nConfig, isValidLocale, type Locale } from '@/lib/i18n'
 import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
-  return i18nConfig.locales.map((lang) => ({ lang }))
+  // This project serves the default locale (nl) at the root routes (e.g. /, /villas, ...)
+  // and only uses the [lang] segment for non-default locales (currently /en/*).
+  return i18nConfig.locales
+    .filter((lang) => lang !== i18nConfig.defaultLocale)
+    .map((lang) => ({ lang }))
 }
 
 export async function generateMetadata({
@@ -34,6 +38,11 @@ export default async function LangLayout({
 
   // Validate the locale
   if (!isValidLocale(lang)) {
+    notFound()
+  }
+
+  // Default locale should never be served via /nl/*
+  if (lang === i18nConfig.defaultLocale) {
     notFound()
   }
 

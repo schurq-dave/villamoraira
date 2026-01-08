@@ -14,6 +14,7 @@ import { generateOrganizationSchema } from "@/lib/seo/jsonld"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { type Locale, languages, getUiText, localizeUrl, normalizeLink, i18nConfig } from "@/lib/i18n"
+import { SITE_URL } from "@/lib/seo/constants"
 
 // Generate static params for all villas in all languages
 export async function generateStaticParams() {
@@ -170,7 +171,15 @@ export default async function VillaDetailPage({
     },
   }
 
-  const organizationSchema = generateOrganizationSchema()
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
 
   return (
     <div className="min-h-screen bg-background">

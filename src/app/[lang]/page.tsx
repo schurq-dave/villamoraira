@@ -145,11 +145,19 @@ export default async function HomePage({
     image: review.imageUrl,
   }))
 
-  const organizationSchema = generateOrganizationSchema()
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
   const webPageSchema = generateWebPageSchema(
     settings?.defaultSeo?.metaTitle || "Villa Moraira",
     settings?.defaultSeo?.metaDescription || "",
-    SITE_URL
+    siteUrl
   )
 
   return (

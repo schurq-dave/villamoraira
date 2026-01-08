@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { HomeIcon } from '@sanity/icons'
+import { isUniqueSlugPerLanguage } from '../utils/isUniqueSlugPerLanguage'
 
 export default defineType({
   name: 'villa',
@@ -41,7 +42,7 @@ export default defineType({
       type: 'slug',
       group: 'content',
       description: 'URL-friendly identifier. The language prefix will be added automatically.',
-      options: { source: 'name' },
+      options: { source: 'name', isUnique: isUniqueSlugPerLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({

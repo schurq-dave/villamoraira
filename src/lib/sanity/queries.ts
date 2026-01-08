@@ -467,6 +467,15 @@ export const VILLA_SLUGS_QUERY = groq`
   }
 `
 
+// Minimal query for sitemap generation (both languages)
+export const VILLA_SITEMAP_QUERY = groq`
+  *[_type == "villa" && defined(slug.current)]{
+    "slug": slug.current,
+    language,
+    _updatedAt
+  }
+`
+
 // -----------------------------------------------------------------------------
 // BLOG POSTS
 // -----------------------------------------------------------------------------

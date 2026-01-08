@@ -1,15 +1,28 @@
 import type { MetadataRoute } from "next"
-import { luxuryBeachVilla } from "@/lib/data/villas/luxury-beach-villa"
-import { luxuryLoungeVilla } from "@/lib/data/villas/luxury-lounge-villa"
 import { blogPosts } from "@/lib/data/blog/posts"
+import { sanityFetch } from "@/lib/sanity/fetch"
+import { SITE_SETTINGS_QUERY, VILLA_SITEMAP_QUERY } from "@/lib/sanity/queries"
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://villamorairahuren.nl"
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const settings = await sanityFetch<any>({
+    query: SITE_SETTINGS_QUERY,
+    params: { language: "nl" },
+    tags: ["siteSettings"],
+    revalidate: 3600,
+  })
 
-  // Static pages
+  const baseUrl = (settings?.siteUrl || "https://villamorairahuren.nl").replace(/\/+$/, "")
+
+  // Static pages (both locales)
   const staticPages = [
     {
       url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/en`,
       lastModified: new Date(),
       changeFrequency: "daily" as const,
       priority: 1,
@@ -21,7 +34,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/en/villas`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/en/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
@@ -33,7 +58,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/en/about-us`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/moraira`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/en/moraira`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
@@ -44,16 +81,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/en/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
   ]
 
-  // Villa pages
-  const villas = [luxuryBeachVilla, luxuryLoungeVilla]
-  const villaPages = villas.map((villa) => ({
-    url: `${baseUrl}/villas/${villa.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.9,
-  }))
+  // Villa detail pages (from Sanity, both locales)
+  const villas = await sanityFetch<Array<{ slug: string; language: string; _updatedAt: string }>>({
+    query: VILLA_SITEMAP_QUERY,
+    tags: ["villa"],
+    revalidate: 3600,
+  })
+
+  const villaPages = (villas || [])
+    .filter((v) => v?.slug)
+    .map((villa) => {
+      const isEn = villa.language === "en"
+      return {
+        url: `${baseUrl}${isEn ? "/en" : ""}/villas/${villa.slug}`,
+        lastModified: villa._updatedAt ? new Date(villa._updatedAt) : new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.9,
+      }
+    })
 
   // Blog pages
   const blogPages = blogPosts.map((post) => ({

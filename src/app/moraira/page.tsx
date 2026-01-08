@@ -4,6 +4,7 @@ import { Sun, Users, Waves, Mountain, Camera, Plane, Car } from "lucide-react"
 import Image from "next/image"
 import { generatePageMetadata } from "@/lib/seo/metadata"
 import { generatePlaceSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo/jsonld"
+import { SITE_URL } from "@/lib/seo/constants"
 import { HeroSection } from "@/components/sections/HeroSection"
 import { CTASection } from "@/components/sections/CTASection"
 import { AttractionCard } from "@/components/moraira/AttractionCard"
@@ -97,6 +98,8 @@ export default async function MorairaPage() {
     })) || [],
   }
 
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
   const placeSchema = generatePlaceSchema({
     name: "Moraira",
     description: hero?.description || "",
@@ -108,14 +111,20 @@ export default async function MorairaPage() {
       addressCountry: "ES",
     },
     image: hero?.imageUrl,
-  })
+  }, siteUrl)
 
-  const organizationSchema = generateOrganizationSchema()
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: "/" },
     { name: "Moraira", url: "/moraira" },
-  ])
+  ], siteUrl)
 
   return (
     <div className="min-h-screen bg-background">

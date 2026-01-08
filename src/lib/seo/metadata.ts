@@ -7,11 +7,13 @@ interface PageMetadataProps {
   path: string
   keywords?: string[]
   ogImage?: string
+  locale?: "nl_NL" | "en_US"
 }
 
 export function generatePageMetadata({ title, description, path, keywords, ogImage }: PageMetadataProps): Metadata {
   const url = `${SITE_URL}${path}`
-  const image = ogImage ? `${SITE_URL}${ogImage}` : DEFAULT_OG_IMAGE
+  const image = resolveOgImageUrl(ogImage)
+  const ogLocale = inferOgLocale(path)
 
   return {
     title,
@@ -23,7 +25,7 @@ export function generatePageMetadata({ title, description, path, keywords, ogIma
       url,
       siteName: SITE_NAME,
       images: [{ url: image }],
-      locale: "nl_NL",
+      locale: ogLocale,
       type: "website",
     },
     twitter: {
@@ -36,4 +38,22 @@ export function generatePageMetadata({ title, description, path, keywords, ogIma
       canonical: url,
     },
   }
+}
+
+function resolveOgImageUrl(ogImage?: string) {
+  if (!ogImage) return DEFAULT_OG_IMAGE
+
+  // Sanity image URLs are typically absolute (https://cdn.sanity.io/...)
+  if (/^https?:\/\//i.test(ogImage)) return ogImage
+
+  // Support protocol-relative URLs if any
+  if (ogImage.startsWith("//")) return `https:${ogImage}`
+
+  // Treat as a local path
+  const normalized = ogImage.startsWith("/") ? ogImage : `/${ogImage}`
+  return `${SITE_URL}${normalized}`
+}
+
+function inferOgLocale(path: string): "nl_NL" | "en_US" {
+  return path === "/en" || path.startsWith("/en/") ? "en_US" : "nl_NL"
 }

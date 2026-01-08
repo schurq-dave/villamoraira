@@ -6,7 +6,7 @@ import { Heart, Users, Home, Star, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { generatePageMetadata } from "@/lib/seo/metadata"
-import { generateWebPageSchema, generateBreadcrumbSchema } from "@/lib/seo/jsonld"
+import { generateWebPageSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo/jsonld"
 import { CTASection } from "@/components/sections/CTASection"
 import { sanityFetch, getStaticPageAlternateUrls } from "@/lib/sanity/fetch"
 import { ABOUT_PAGE_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY, FOOTER_QUERY } from "@/lib/sanity/queries"
@@ -93,19 +93,30 @@ export default async function AboutPage() {
     })) || [],
   }
 
+  const siteUrl = (settings?.siteUrl || "https://villamorairahuren.nl").replace(/\/+$/, "")
+
   const webPageSchema = generateWebPageSchema(
     aboutPage?.seo?.metaTitle || "Over Ons - Villa Moraira",
     aboutPage?.seo?.metaDescription || "",
-    "https://villamoraira.com/over-ons"
+    `${siteUrl}/over-ons`
   )
 
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
+
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://villamoraira.com" },
-    { name: "Over Ons", url: "https://villamoraira.com/over-ons" },
-  ])
+    { name: "Home", url: "/" },
+    { name: "Over Ons", url: "/over-ons" },
+  ], siteUrl)
 
   return (
     <div className="min-h-screen bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 

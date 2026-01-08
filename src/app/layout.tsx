@@ -1,5 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { headers } from "next/headers"
 import "./globals.css"
 import { ScrollToTop } from "@/components/ScrollToTop"
 
@@ -11,13 +12,16 @@ export const metadata: Metadata = {
   keywords: "villa rental, Moraira, Spain, luxury accommodation, beach villa, Mediterranean vacation",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Default locale is Dutch. Middleware sets x-locale=en for /en/* routes.
+  const locale = (await headers()).get("x-locale") || "nl"
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <link
           rel="preload"

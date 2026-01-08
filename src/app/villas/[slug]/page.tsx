@@ -11,6 +11,7 @@ import {
 } from "@/lib/sanity/queries"
 import { generatePageMetadata } from "@/lib/seo/metadata"
 import { generateOrganizationSchema } from "@/lib/seo/jsonld"
+import { SITE_URL } from "@/lib/seo/constants"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { getUiText, languages } from "@/lib/i18n"
@@ -158,7 +159,15 @@ export default async function VillaDetailPage({
     },
   }
 
-  const organizationSchema = generateOrganizationSchema()
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
 
   return (
     <div className="min-h-screen bg-background">

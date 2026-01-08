@@ -16,6 +16,7 @@ import {
   ALL_VILLAS_QUERY,
 } from "@/lib/sanity/queries"
 import { type Locale, languages, getUiText, localizeUrl, normalizeLink } from "@/lib/i18n"
+import { SITE_URL } from "@/lib/seo/constants"
 
 export async function generateMetadata({
   params,
@@ -107,7 +108,15 @@ export default async function VillasPage({
     })),
   }
 
-  const organizationSchema = generateOrganizationSchema()
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
 
   const itemListSchema = generateItemListSchema(
     (villas || []).map((villa) => ({
@@ -116,12 +125,13 @@ export default async function VillasPage({
       image: villa.mainImageUrl || "/luxury-villa.png",
       description: villa.shortDescription || "",
     })),
+    siteUrl,
   )
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: localizeUrl("/", locale) },
     { name: locale === "nl" ? "Villas" : "Villas", url: localizeUrl("/villas", locale) },
-  ])
+  ], siteUrl)
 
   const ctaButtons = [
     {

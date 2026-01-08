@@ -16,6 +16,7 @@ import {
   ALL_VILLAS_QUERY,
 } from "@/lib/sanity/queries"
 import { getUiText, languages } from "@/lib/i18n"
+import { SITE_URL } from "@/lib/seo/constants"
 
 const LOCALE = "nl"
 
@@ -90,7 +91,15 @@ export default async function VillasPage() {
     legalLinks: footer?.bottomBar?.links || [],
   }
 
-  const organizationSchema = generateOrganizationSchema()
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
 
   const itemListSchema = generateItemListSchema(
     (villas || []).map((villa) => ({
@@ -99,12 +108,13 @@ export default async function VillasPage() {
       image: villa.mainImageUrl || "/luxury-villa.png",
       description: villa.shortDescription || "",
     })),
+    siteUrl,
   )
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: "/" },
     { name: "Villas", url: "/villas" },
-  ])
+  ], siteUrl)
 
   const ctaButtons = [
     {

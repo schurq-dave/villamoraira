@@ -15,6 +15,7 @@ import { sanityFetch, getStaticPageAlternateUrls } from "@/lib/sanity/fetch"
 import { MORAIRA_PAGE_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY, FOOTER_QUERY } from "@/lib/sanity/queries"
 import { getUiText, type Locale, normalizeLink, languages } from "@/lib/i18n"
 import { notFound } from "next/navigation"
+import { SITE_URL } from "@/lib/seo/constants"
 
 interface MorairaPageProps {
   params: Promise<{ lang: string }>
@@ -104,6 +105,8 @@ export default async function MorairaPage({ params }: MorairaPageProps) {
     })) || [],
   }
 
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
   const placeSchema = generatePlaceSchema({
     name: "Moraira",
     description: hero?.description || "",
@@ -115,14 +118,20 @@ export default async function MorairaPage({ params }: MorairaPageProps) {
       addressCountry: "ES",
     },
     image: hero?.imageUrl,
-  })
+  }, siteUrl)
 
-  const organizationSchema = generateOrganizationSchema()
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `/${lang}` },
     { name: "Moraira", url: `/${lang}/moraira` },
-  ])
+  ], siteUrl)
 
   return (
     <div className="min-h-screen bg-background">

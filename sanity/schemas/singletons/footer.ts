@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { BlockContentIcon } from '@sanity/icons'
+import { isUniqueSlugPerLanguage } from '../utils/isUniqueSlugPerLanguage'
 
 export default defineType({
   name: 'footer',
@@ -26,7 +27,7 @@ export default defineType({
       title: 'Slug',
       type: 'slug',
       description: 'URL identifier for this language version',
-      options: { source: 'title' },
+      options: { source: 'title', isUnique: isUniqueSlugPerLanguage },
     }),
     defineField({
       name: 'tagline',

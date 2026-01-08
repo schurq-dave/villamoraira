@@ -3,20 +3,45 @@ import { siteConfig } from "@/lib/data/site-config"
 import type { Villa } from "@/lib/types/Villa"
 import type { BlogPost } from "@/lib/types/BlogPost"
 
-export function generateOrganizationSchema() {
+function resolveUrl(baseUrl: string, urlOrPath: string) {
+  const base = (baseUrl || "").replace(/\/+$/, "")
+  if (!urlOrPath) return base
+  if (/^https?:\/\//i.test(urlOrPath)) return urlOrPath
+  if (urlOrPath.startsWith("//")) return `https:${urlOrPath}`
+  const normalized = urlOrPath.startsWith("/") ? urlOrPath : `/${urlOrPath}`
+  return `${base}${normalized}`
+}
+
+export function generateOrganizationSchema(options?: {
+  siteUrl?: string
+  siteName?: string
+  logoUrl?: string
+  contact?: { email?: string; phone?: string }
+  social?: { facebook?: string; instagram?: string }
+}) {
+  const baseUrl = (options?.siteUrl || SITE_URL).replace(/\/+$/, "")
+  const name = options?.siteName || SITE_NAME
+  const logo = options?.logoUrl ? options.logoUrl : resolveUrl(baseUrl, "/logo.png")
+  const email = options?.contact?.email || siteConfig.contact.email
+  const telephone = options?.contact?.phone || siteConfig.contact.phone
+  const sameAs = [
+    options?.social?.facebook || siteConfig.social.facebook,
+    options?.social?.instagram || siteConfig.social.instagram,
+  ].filter(Boolean)
+
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: SITE_NAME,
-    url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    name,
+    url: baseUrl,
+    logo,
     contactPoint: {
       "@type": "ContactPoint",
-      email: siteConfig.contact.email,
-      telephone: siteConfig.contact.phone,
+      email,
+      telephone,
       contactType: "Customer Service",
     },
-    sameAs: [siteConfig.social.facebook, siteConfig.social.instagram],
+    ...(sameAs.length ? { sameAs } : {}),
   }
 }
 
@@ -30,13 +55,14 @@ export function generateWebPageSchema(title: string, description: string, url: s
   }
 }
 
-export function generateProductSchema(villa: Villa) {
+export function generateProductSchema(villa: Villa, siteUrl?: string) {
+  const baseUrl = siteUrl || SITE_URL
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: villa.name,
     description: villa.description.short,
-    image: `${SITE_URL}${villa.images.main}`,
+    image: resolveUrl(baseUrl, villa.images.main),
     offers: {
       "@type": "Offer",
       price: villa.pricing.perNight,
@@ -51,7 +77,8 @@ export function generateProductSchema(villa: Villa) {
   }
 }
 
-export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
+export function generateBreadcrumbSchema(items: { name: string; url: string }[], siteUrl?: string) {
+  const baseUrl = siteUrl || SITE_URL
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -59,18 +86,19 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${SITE_URL}${item.url}`,
+      item: resolveUrl(baseUrl, item.url),
     })),
   }
 }
 
-export function generateArticleSchema(post: BlogPost) {
+export function generateArticleSchema(post: BlogPost, siteUrl?: string) {
+  const baseUrl = siteUrl || SITE_URL
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.excerpt,
-    image: `${SITE_URL}${post.image}`,
+    image: resolveUrl(baseUrl, post.image),
     datePublished: post.date,
     author: {
       "@type": "Person",
@@ -95,7 +123,8 @@ export function generatePlaceSchema(place: {
   }
   telephone?: string
   image?: string
-}) {
+}, siteUrl?: string) {
+  const baseUrl = siteUrl || SITE_URL
   return {
     "@context": "https://schema.org",
     "@type": "Place",
@@ -117,7 +146,7 @@ export function generatePlaceSchema(place: {
       },
     }),
     ...(place.telephone && { telephone: place.telephone }),
-    ...(place.image && { image: `${SITE_URL}${place.image}` }),
+    ...(place.image && { image: resolveUrl(baseUrl, place.image) }),
   }
 }
 
@@ -128,7 +157,9 @@ export function generateItemListSchema(
     description?: string
     image?: string
   }[],
+  siteUrl?: string,
 ) {
+  const baseUrl = siteUrl || SITE_URL
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -136,9 +167,9 @@ export function generateItemListSchema(
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      url: `${SITE_URL}${item.url}`,
+      url: resolveUrl(baseUrl, item.url),
       ...(item.description && { description: item.description }),
-      ...(item.image && { image: `${SITE_URL}${item.image}` }),
+      ...(item.image && { image: resolveUrl(baseUrl, item.image) }),
     })),
   }
 }

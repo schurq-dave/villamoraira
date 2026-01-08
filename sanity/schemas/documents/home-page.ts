@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { HomeIcon } from '@sanity/icons'
+import { isUniqueSlugPerLanguage } from '../utils/isUniqueSlugPerLanguage'
 
 export default defineType({
   name: 'homePage',
@@ -33,7 +34,7 @@ export default defineType({
       title: 'Slug',
       type: 'slug',
       description: 'URL path for this language version (leave empty for root "/")',
-      options: { source: 'title' },
+      options: { source: 'title', isUnique: isUniqueSlugPerLanguage },
     }),
     defineField({
       name: 'seo',

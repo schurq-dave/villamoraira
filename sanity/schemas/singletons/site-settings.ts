@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { CogIcon } from '@sanity/icons'
+import { isUniqueSlugPerLanguage } from '../utils/isUniqueSlugPerLanguage'
 
 export default defineType({
   name: 'siteSettings',
@@ -33,7 +34,7 @@ export default defineType({
       type: 'slug',
       group: 'general',
       description: 'URL identifier for this language version',
-      options: { source: 'siteName' },
+      options: { source: 'siteName', isUnique: isUniqueSlugPerLanguage },
     }),
     defineField({
       name: 'siteTagline',

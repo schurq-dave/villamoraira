@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { AmenitiesList } from "@/components/lists/AmenitiesList"
 import { ChecklistGrid } from "@/components/lists/ChecklistGrid"
+import { ImageGallery } from "@/components/villa/ImageGallery"
 import { Star, Users, Bed, Bath, MapPin, ArrowLeft, Share, Heart } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import { BookingCalendarClient } from "./BookingCalendarClient"
 import type { UIText } from "@/lib/types/UIText"
 
@@ -133,59 +133,12 @@ export function VillaDetailTemplate({ villa, uiText }: VillaDetailTemplateProps)
       {/* Villa Images */}
       <section className="mb-12">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-96 lg:h-[500px]">
-            <div className="lg:col-span-2 relative rounded-lg overflow-hidden">
-              <Image
-                src={villa.images.main || "/placeholder.svg"}
-                alt="Main villa view"
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                quality={85}
-              />
-            </div>
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
-              <div className="relative rounded-lg overflow-hidden">
-                <Image
-                  src={villa.images.gallery[0] || "/placeholder.svg"}
-                  alt="Villa view 2"
-                  fill
-                  className="object-cover"
-                  loading="lazy"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  quality={80}
-                />
-              </div>
-              <div className="relative rounded-lg overflow-hidden">
-                <Image
-                  src={villa.images.gallery[1] || "/placeholder.svg"}
-                  alt="Villa view 3"
-                  fill
-                  className="object-cover"
-                  loading="lazy"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  quality={80}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
-              <div className="relative rounded-lg overflow-hidden">
-                <Image
-                  src={villa.images.gallery[2] || "/placeholder.svg"}
-                  alt="Villa view 4"
-                  fill
-                  className="object-cover"
-                  loading="lazy"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  quality={80}
-                />
-              </div>
-              <div className="relative rounded-lg overflow-hidden bg-black/50 flex items-center justify-center">
-                <Button variant="outline">{uiText.villa.viewAllPhotos}</Button>
-              </div>
-            </div>
-          </div>
+          <ImageGallery
+            mainImage={villa.images.main}
+            gallery={villa.images.gallery}
+            villaName={villa.name}
+            viewAllText={uiText.villa.viewAllPhotos}
+          />
         </div>
       </section>
 

@@ -6,7 +6,8 @@ import { Heart, Users, Home, Star, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { generatePageMetadata } from "@/lib/seo/metadata"
-import { generateWebPageSchema, generateBreadcrumbSchema } from "@/lib/seo/jsonld"
+import { generateWebPageSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo/jsonld"
+import { SITE_URL } from "@/lib/seo/constants"
 import { CTASection } from "@/components/sections/CTASection"
 import { sanityFetch, getStaticPageAlternateUrls } from "@/lib/sanity/fetch"
 import { ABOUT_PAGE_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY, FOOTER_QUERY } from "@/lib/sanity/queries"
@@ -100,19 +101,30 @@ export default async function AboutPage({ params }: AboutPageProps) {
     })) || [],
   }
 
+  const siteUrl = (settings?.siteUrl || SITE_URL).replace(/\/+$/, "")
+
   const webPageSchema = generateWebPageSchema(
     aboutPage?.seo?.metaTitle || "About Us - Villa Moraira",
     aboutPage?.seo?.metaDescription || "",
-    `https://villamoraira.com/${lang}/about-us`
+    `${siteUrl}/${lang}/about-us`
   )
 
+  const organizationSchema = generateOrganizationSchema({
+    siteUrl,
+    siteName: settings?.siteName,
+    logoUrl: settings?.logoUrl,
+    contact: settings?.contact,
+    social: settings?.social,
+  })
+
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: `https://villamoraira.com/${lang}` },
-    { name: "About Us", url: `https://villamoraira.com/${lang}/about-us` },
-  ])
+    { name: "Home", url: `/${lang}` },
+    { name: "About Us", url: `/${lang}/about-us` },
+  ], siteUrl)
 
   return (
     <div className="min-h-screen bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
