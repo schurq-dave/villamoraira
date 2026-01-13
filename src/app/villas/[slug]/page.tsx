@@ -183,6 +183,10 @@ export default async function VillaDetailPage({
         siteName={settings?.siteName || "Villa Moraira"}
         uiText={uiText}
         currentLocale={LOCALE}
+        alternateUrls={{
+          nl: `/villas/${slug}`,
+          en: `/en/villas/${slug}`,
+        }}
       />
 
       <VillaDetailTemplate villa={villaData} uiText={uiText} />

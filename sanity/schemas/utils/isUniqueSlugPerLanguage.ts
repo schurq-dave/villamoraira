@@ -20,14 +20,16 @@ export const isUniqueSlugPerLanguage: SlugIsUniqueValidator = async (slug, conte
   if (!docType || !language) return true
 
   const client = getClient({ apiVersion: "2024-01-01" })
-  const id = (document?._id || "").replace(/^drafts\./, "")
+  const baseId = (document?._id || "").replace(/^drafts\./, "")
+  const draftId = `drafts.${baseId}`
 
+  // Exclude both the published and draft versions of this document
   const query = /* groq */ `
     count(*[
       _type == $type &&
       language == $language &&
       slug.current == $slug &&
-      _id != $id
+      !(_id in [$baseId, $draftId])
     ])
   `
 
@@ -35,7 +37,8 @@ export const isUniqueSlugPerLanguage: SlugIsUniqueValidator = async (slug, conte
     type: docType,
     language,
     slug: current,
-    id,
+    baseId,
+    draftId,
   })
 
   return count === 0
