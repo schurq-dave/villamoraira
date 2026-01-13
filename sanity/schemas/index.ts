@@ -18,6 +18,7 @@ import villa from './documents/villa'
 import amenity from './documents/amenity'
 import review from './documents/review'
 import blogPost from './documents/blog-post'
+import blogPage from './documents/blog-page'
 import article from './documents/article'
 import author from './documents/author'
 import category from './documents/category'
@@ -45,6 +46,7 @@ export const schemaTypes = [
   amenity,
   review,
   blogPost,
+  blogPage,
   article,
   author,
   category,

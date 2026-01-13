@@ -12,6 +12,7 @@ import { ActivitySection } from "@/components/moraira/ActivitySection"
 import { TransportationInfo } from "@/components/moraira/TransportationInfo"
 import { DiningCard } from "@/components/moraira/DiningCard"
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
+import PortableTextRenderer from "@/components/portable-text-renderer"
 import { sanityFetch, getStaticPageAlternateUrls } from "@/lib/sanity/fetch"
 import { MORAIRA_PAGE_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY, FOOTER_QUERY } from "@/lib/sanity/queries"
 import { getUiText, type Locale, normalizeLink, languages } from "@/lib/i18n"
@@ -145,7 +146,13 @@ export default async function MorairaPage() {
       <HeroSection
         variant="split"
         title={hero?.title || ""}
-        description={hero?.description || ""}
+        description={
+          Array.isArray(hero?.description) ? (
+            <PortableTextRenderer value={hero.description} />
+          ) : (
+            hero?.description || ""
+          )
+        }
         image={hero?.imageUrl || "/placeholder.svg"}
         imageAlt={hero?.imageAlt || ""}
       />
@@ -156,11 +163,19 @@ export default async function MorairaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6">{introduction?.title || ""}</h2>
-              {introduction?.paragraphs?.map((paragraph: string, index: number) => (
-                <p key={index} className="text-muted-foreground leading-relaxed mb-6">
-                  {paragraph}
-                </p>
-              ))}
+              {Array.isArray(introduction?.paragraphs) &&
+              introduction.paragraphs.length > 0 &&
+              typeof introduction.paragraphs[0] === "string" ? (
+                introduction.paragraphs.map((paragraph: string, index: number) => (
+                  <p key={index} className="text-muted-foreground leading-relaxed mb-6">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                <div className="text-muted-foreground leading-relaxed">
+                  <PortableTextRenderer value={introduction?.paragraphs || []} />
+                </div>
+              )}
               <div className="flex items-center gap-4">
                 {introduction?.stats?.map((stat: any, index: number) => (
                   <div key={index} className="flex items-center">
@@ -202,7 +217,12 @@ export default async function MorairaPage() {
                 {attractions?.items?.map((attraction: any, index: number) => (
                   <CarouselItem key={index} className="pl-4 basis-[85%]">
                     <AttractionCard
-                      {...attraction}
+                      title={attraction.title}
+                      description={attraction.description}
+                      image={attraction.imageUrl}
+                      imageAlt={attraction.imageAlt}
+                      distance={attraction.distance}
+                      badge={attraction.badge}
                       icon={attraction.icon === "waves" ? Waves : attraction.icon === "mountain" ? Mountain : Camera}
                     />
                   </CarouselItem>
@@ -215,15 +235,20 @@ export default async function MorairaPage() {
             </Carousel>
           </div>
 
-          <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {attractions?.items?.map((attraction: any, index: number) => (
-              <AttractionCard
-                key={index}
-                {...attraction}
-                icon={attraction.icon === "waves" ? Waves : attraction.icon === "mountain" ? Mountain : Camera}
-              />
-            ))}
-          </div>
+            <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {attractions?.items?.map((attraction: any, index: number) => (
+                <AttractionCard
+                  key={index}
+                  title={attraction.title}
+                  description={attraction.description}
+                  image={attraction.imageUrl}
+                  imageAlt={attraction.imageAlt}
+                  distance={attraction.distance}
+                  badge={attraction.badge}
+                  icon={attraction.icon === "waves" ? Waves : attraction.icon === "mountain" ? Mountain : Camera}
+                />
+              ))}
+            </div>
         </div>
       </section>
 

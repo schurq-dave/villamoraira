@@ -81,6 +81,10 @@ export const structure = (S: StructureBuilder) =>
                 .title('Contact Page')
                 .icon(EnvelopeIcon)
                 .child(createTranslatableList(S, 'contactPage', 'Contact Page')),
+              S.listItem()
+                .title('Blog Page')
+                .icon(DocumentTextIcon)
+                .child(createTranslatableList(S, 'blogPage', 'Blog Page')),
             ])
         ),
       S.divider(),

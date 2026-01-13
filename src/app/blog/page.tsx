@@ -1,75 +1,174 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { navigationData } from "@/lib/data/navigation"
 import { generatePageMetadata } from "@/lib/seo/metadata"
-import { generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo/jsonld"
-import { footerData } from "@/lib/data/footer"
-import { BlogCard } from "@/components/cards/BlogCard"
-import { HeroSection } from "@/components/sections/HeroSection"
-import { FeaturedPostCard } from "@/components/blog/FeaturedPostCard"
-import { CategoryBadge } from "@/components/blog/CategoryBadge"
-import { blogPosts } from "@/lib/data/blog/posts"
-import { uiText } from "@/lib/data/site-config"
-import { blogPageData } from "@/lib/data/pages/blog"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Image from "next/image"
+import Link from "next/link"
+import { sanityFetch } from "@/lib/sanity/fetch"
+import {
+  ALL_BLOG_POSTS_QUERY,
+  ALL_CATEGORIES_QUERY,
+  BLOG_PAGE_QUERY,
+  FOOTER_QUERY,
+  NAVIGATION_QUERY,
+  SITE_SETTINGS_QUERY,
+} from "@/lib/sanity/queries"
+import { getUiText, normalizeLink, languages, type Locale } from "@/lib/i18n"
+import PortableTextRenderer from "@/components/portable-text-renderer"
 
 export async function generateMetadata() {
+  const locale: Locale = "nl"
+  const blogPage = await sanityFetch<any>({
+    query: BLOG_PAGE_QUERY,
+    params: { language: locale },
+    tags: ["blogPage"],
+  })
+
   return generatePageMetadata({
-    title: blogPageData.seo.metaTitle,
-    description: blogPageData.seo.metaDescription,
-    keywords: blogPageData.seo.keywords,
-    path: `/${blogPageData.seo.slug}`,
+    title: blogPage?.seo?.metaTitle || "Blog | Villa Moraira",
+    description: blogPage?.seo?.metaDescription || "",
+    keywords: blogPage?.seo?.keywords || [],
+    path: "/blog",
+    ogImage: blogPage?.seo?.ogImageUrl,
   })
 }
 
-export default function BlogPage() {
-  const featuredPost = blogPosts.find((post) => post.featured)
-  const regularPosts = blogPosts.filter((post) => !post.featured)
+export default async function BlogPage() {
+  const locale: Locale = "nl"
+  const uiText = getUiText(locale)
 
-  const organizationSchema = generateOrganizationSchema()
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: uiText.common.home, url: "/" },
-    { name: uiText.blog.breadcrumbBlog, url: "/blog" },
+  const [blogPosts, blogPage, categories, settings, navigation, footer] = await Promise.all([
+    sanityFetch<any[]>({
+      query: ALL_BLOG_POSTS_QUERY,
+      params: { language: locale },
+      tags: ["blogPost"],
+    }),
+    sanityFetch<any>({
+      query: BLOG_PAGE_QUERY,
+      params: { language: locale },
+      tags: ["blogPage"],
+    }),
+    sanityFetch<any[]>({
+      query: ALL_CATEGORIES_QUERY,
+      tags: ["category"],
+    }),
+    sanityFetch<any>({
+      query: SITE_SETTINGS_QUERY,
+      params: { language: locale },
+      tags: ["siteSettings"],
+    }),
+    sanityFetch<any>({
+      query: NAVIGATION_QUERY,
+      params: { language: locale },
+      tags: ["navigation"],
+    }),
+    sanityFetch<any>({
+      query: FOOTER_QUERY,
+      params: { language: locale },
+      tags: ["footer"],
+    }),
   ])
+
+  const navigationItems =
+    navigation?.mainNav?.map((item: any) => ({
+      name: item.label,
+      href: normalizeLink(item.href, locale),
+    })) || []
+
+  const languageOptions = Object.entries(languages).map(([code, { name, flag }]) => ({
+    code,
+    name,
+    flag,
+  }))
+
+  const footerConfig = {
+    companyName: settings?.siteName || "Villa Moraira",
+    companyDescription: footer?.tagline || "",
+    social: settings?.social || {},
+    quickLinks:
+      footer?.columns?.[0]?.links?.map((l: any) => ({
+        ...l,
+        href: normalizeLink(l.href || "/", locale),
+      })) || [],
+    services: footer?.columns?.[1]?.links?.map((l: any) => l.label) || [],
+    contact: settings?.contact || {},
+    copyright: footer?.bottomBar?.copyright || "",
+    legalLinks:
+      footer?.bottomBar?.links?.map((l: any) => ({
+        ...l,
+        href: normalizeLink(l.href || "/", locale),
+      })) || [],
+  }
+
+  const posts = blogPosts || []
+  const featuredPost = posts[0]
+  const regularPosts = featuredPost ? posts.slice(1) : posts
 
   return (
     <div className="min-h-screen bg-background">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-
       <Navigation
-        items={navigationData.mainNav}
-        languages={navigationData.languages}
-        siteName={navigationData.siteName}
+        items={navigationItems}
+        languages={languageOptions}
+        siteName={settings?.siteName || "Villa Moraira"}
         uiText={uiText}
+        currentLocale={locale}
+        alternateUrls={{ nl: "/blog", en: "/en/blog" }}
       />
 
-      <HeroSection
-        badge={blogPageData.hero.badge}
-        title={blogPageData.hero.title}
-        description={blogPageData.hero.description}
-      />
+      {/* Hero Section */}
+      <section className="relative py-20 bg-muted">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-3xl">
+            {blogPage?.hero?.badge && (
+              <Badge className="mb-4 bg-secondary text-secondary-foreground py-1.5 px-3">
+                {blogPage.hero.badge}
+              </Badge>
+            )}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6">{blogPage?.hero?.title || "Blog"}</h1>
+            <div className="text-xl text-muted-foreground leading-relaxed">
+              <PortableTextRenderer value={blogPage?.hero?.description || []} />
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Featured Post */}
+      {/* Featured Post (first post) */}
       {featuredPost && (
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-12">
-              <h2 className="text-3xl font-light mb-2">{uiText.blog.featuredHeading}</h2>
-              <p className="text-muted-foreground">{uiText.blog.featuredDescription}</p>
+              <h2 className="text-3xl font-light mb-2">{blogPage?.featuredSection?.title || "Uitgelicht"}</h2>
+              <p className="text-muted-foreground">{blogPage?.featuredSection?.description || ""}</p>
             </div>
 
-            <FeaturedPostCard
-              slug={featuredPost.slug}
-              title={featuredPost.title}
-              excerpt={featuredPost.excerpt}
-              category={featuredPost.category}
-              author={featuredPost.author}
-              date={featuredPost.date}
-              readTime={featuredPost.readTime}
-              image={featuredPost.image}
-              uiText={uiText}
-            />
+            <Link href={`/blog/${featuredPost.slug}`} className="block group">
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative h-64">
+                  <Image
+                    src={featuredPost.mainImageUrl || "/placeholder.svg"}
+                    alt={featuredPost.mainImageAlt || featuredPost.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-2xl line-clamp-2">{featuredPost.title}</CardTitle>
+                  <CardDescription>
+                    {featuredPost.publishedAt
+                      ? new Date(featuredPost.publishedAt).toLocaleDateString("nl-NL", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : ""}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{featuredPost.excerpt}</p>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
         </section>
       )}
@@ -78,24 +177,47 @@ export default function BlogPage() {
       <section className="py-20 bg-muted">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-12">
-            <h2 className="text-3xl font-light mb-2">{uiText.blog.latestHeading}</h2>
-            <p className="text-muted-foreground">{uiText.blog.latestDescription}</p>
+            <h2 className="text-3xl font-light mb-2">{blogPage?.latestSection?.title || "Laatste artikelen"}</h2>
+            <p className="text-muted-foreground">{blogPage?.latestSection?.description || ""}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {regularPosts.map((post) => (
-              <BlogCard
-                key={post.slug}
-                slug={post.slug}
-                title={post.title}
-                excerpt={post.excerpt}
-                category={post.category}
-                date={post.date}
-                readTime={post.readTime}
-                image={post.image}
-              />
-            ))}
-          </div>
+          {(!regularPosts || regularPosts.length === 0) ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">Er zijn nog geen blog posts beschikbaar.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {regularPosts.map((post: any) => (
+                <Link key={post._id} href={`/blog/${post.slug}`} className="block group">
+                  <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <div className="relative h-48">
+                      <Image
+                        src={post.mainImageUrl || "/placeholder.svg"}
+                        alt={post.mainImageAlt || post.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="line-clamp-2">{post.title}</CardTitle>
+                      <CardDescription>
+                        {post.publishedAt
+                          ? new Date(post.publishedAt).toLocaleDateString("nl-NL", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })
+                          : ""}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -103,22 +225,25 @@ export default function BlogPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-12">
-            <h2 className="text-3xl font-light mb-6">{uiText.blog.categoriesHeading}</h2>
-            <p className="text-muted-foreground">{uiText.blog.categoriesDescription}</p>
+            <h2 className="text-3xl font-light mb-6">{blogPage?.categoriesSection?.title || "Categorieën"}</h2>
+            <p className="text-muted-foreground">{blogPage?.categoriesSection?.description || ""}</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {blogPageData.categories.map((category) => (
-              <Button key={category.slug} variant="outline" className="h-auto py-4 flex-col gap-2 bg-transparent">
-                <CategoryBadge category={category.name} />
-                <span className="text-sm font-medium">{category.name}</span>
-              </Button>
+            {(categories || []).map((category: any) => (
+              <Link
+                key={category._id}
+                href={`/blog?category=${category.slug}`}
+                className="border rounded-md py-4 px-3 text-center hover:bg-muted transition-colors"
+              >
+                <span className="text-sm font-medium">{category.title}</span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <Footer config={footerData} uiText={uiText} />
+      <Footer config={footerConfig} uiText={uiText} />
     </div>
   )
 }

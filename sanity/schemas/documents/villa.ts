@@ -31,7 +31,7 @@ export default defineType({
     // Content
     defineField({
       name: 'name',
-      title: 'Villa Name',
+      title: 'Villa Naam',
       type: 'string',
       group: 'content',
       validation: (Rule) => Rule.required(),
@@ -47,7 +47,7 @@ export default defineType({
     }),
     defineField({
       name: 'shortDescription',
-      title: 'Short Description',
+      title: 'Korte Omschrijving (voor kaarten)',
       type: 'text',
       rows: 3,
       group: 'content',
@@ -55,7 +55,7 @@ export default defineType({
     }),
     defineField({
       name: 'fullDescription',
-      title: 'Full Description',
+      title: 'Volledige Beschrijving',
       type: 'portableText',
       group: 'content',
       description: 'Detailed description with rich text',
@@ -63,7 +63,7 @@ export default defineType({
     // Media
     defineField({
       name: 'mainImage',
-      title: 'Main Image',
+      title: 'Hoofdafbeelding',
       type: 'image',
       group: 'media',
       options: { hotspot: true },
@@ -74,7 +74,7 @@ export default defineType({
     }),
     defineField({
       name: 'images',
-      title: 'Gallery Images',
+      title: 'Foto Galerij',
       type: 'array',
       group: 'media',
       of: [
@@ -90,7 +90,7 @@ export default defineType({
     // Details
     defineField({
       name: 'location',
-      title: 'Location',
+      title: 'Locatie',
       type: 'object',
       group: 'details',
       fields: [
@@ -109,7 +109,7 @@ export default defineType({
     }),
     defineField({
       name: 'pricing',
-      title: 'Pricing',
+      title: 'Prijzen',
       type: 'object',
       group: 'details',
       fields: [
@@ -128,7 +128,7 @@ export default defineType({
     }),
     defineField({
       name: 'capacity',
-      title: 'Capacity',
+      title: 'Capaciteit',
       type: 'object',
       group: 'details',
       fields: [
@@ -149,7 +149,7 @@ export default defineType({
     }),
     defineField({
       name: 'amenities',
-      title: 'Amenities',
+      title: 'Voorzieningen Villa',
       type: 'array',
       group: 'details',
       of: [{ type: 'reference', to: [{ type: 'amenity' }] }],
@@ -169,6 +169,43 @@ export default defineType({
           ],
           preview: {
             select: { title: 'title', subtitle: 'icon' },
+          },
+        },
+      ],
+    }),
+    defineField({
+      name: 'locationHighlights',
+      title: 'Omgeving Moraira',
+      type: 'array',
+      group: 'content',
+      description: 'Voorzieningen in de omgeving (stranden, haven, winkels, etc.)',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', type: 'string', title: 'Titel' },
+            { name: 'description', type: 'string', title: 'Beschrijving' },
+            { name: 'distance', type: 'string', title: 'Afstand (optioneel)' },
+            {
+              name: 'icon',
+              type: 'string',
+              title: 'Icoon',
+              options: {
+                list: [
+                  { title: 'Strand', value: 'beach' },
+                  { title: 'Haven', value: 'anchor' },
+                  { title: 'Restaurant', value: 'utensils' },
+                  { title: 'Winkel', value: 'shopping-bag' },
+                  { title: 'Wandelen', value: 'footprints' },
+                  { title: 'Golf', value: 'golf' },
+                  { title: 'Tennis', value: 'tennis' },
+                  { title: 'Monument', value: 'landmark' },
+                ],
+              },
+            },
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'distance' },
           },
         },
       ],

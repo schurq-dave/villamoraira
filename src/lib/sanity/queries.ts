@@ -359,6 +359,40 @@ export const MORAIRA_PAGE_QUERY = groq`
 `
 
 // -----------------------------------------------------------------------------
+// BLOG PAGE (OVERVIEW)
+// -----------------------------------------------------------------------------
+export const BLOG_PAGE_QUERY = groq`
+  *[_type == "blogPage" && language == $language][0]{
+    _id,
+    title,
+    "slug": slug.current,
+    seo{
+      metaTitle,
+      metaDescription,
+      keywords,
+      "ogImageUrl": ogImage.asset->url
+    },
+    hero{
+      badge,
+      title,
+      description
+    },
+    featuredSection{
+      title,
+      description
+    },
+    latestSection{
+      title,
+      description
+    },
+    categoriesSection{
+      title,
+      description
+    }
+  }
+`
+
+// -----------------------------------------------------------------------------
 // VILLAS
 // -----------------------------------------------------------------------------
 export const ALL_VILLAS_QUERY = groq`
@@ -452,6 +486,12 @@ export const VILLA_BY_SLUG_QUERY = groq`
       icon,
       title,
       description
+    },
+    locationHighlights[]{
+      title,
+      description,
+      distance,
+      icon
     },
     houseRules,
     featured,

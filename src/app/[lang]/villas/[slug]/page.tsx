@@ -144,7 +144,8 @@ export default async function VillaDetailPage({
     guests: villa.capacity?.guests || 0,
     bedrooms: villa.capacity?.bedrooms || 0,
     bathrooms: villa.capacity?.bathrooms || 0,
-    description: villa.shortDescription ? [villa.shortDescription] : [""],
+    // On detail pages we render the full portable-text description.
+    description: villa.fullDescription || [],
     amenities: villa.amenities?.map((a: any) => a.name) || [],
     houseRules: {
       checkIn: villa.houseRules?.[0] || (locale === "nl" ? "Na 16:00 uur" : "After 4:00 PM"),

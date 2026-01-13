@@ -53,7 +53,7 @@ export default defineType({
       group: 'content',
       fields: [
         { name: 'title', type: 'string', title: 'Hero Title' },
-        { name: 'description', type: 'text', title: 'Description', rows: 3 },
+        { name: 'description', type: 'portableText', title: 'Description' },
         { name: 'image', type: 'image', title: 'Hero Image', options: { hotspot: true } },
         { name: 'imageAlt', type: 'string', title: 'Image Alt Text' },
       ],
@@ -67,9 +67,8 @@ export default defineType({
         { name: 'title', type: 'string', title: 'Section Title' },
         {
           name: 'paragraphs',
-          type: 'array',
-          title: 'Paragraphs',
-          of: [{ type: 'text', rows: 3 }],
+          type: 'portableText',
+          title: 'Tekst',
         },
         {
           name: 'stats',

@@ -6,7 +6,7 @@ interface HeroSectionProps {
   badge?: string
   title: string
   subtitle?: string
-  description?: string
+  description?: ReactNode
   image?: string
   imageAlt?: string
   overlay?: boolean
@@ -61,7 +61,12 @@ export function HeroSection({
               <h1 className="text-5xl md:text-6xl lg:text-7xl text-foreground leading-tight font-light">{title}</h1>
             </div>
             <div className="flex flex-col justify-center">
-              {description && <p className="text-lg text-muted-foreground mb-6">{description}</p>}
+              {description &&
+                (typeof description === "string" ? (
+                  <p className="text-lg text-muted-foreground mb-6">{description}</p>
+                ) : (
+                  <div className="text-lg text-muted-foreground mb-6">{description}</div>
+                ))}
               {children}
             </div>
           </div>
@@ -92,7 +97,14 @@ export function HeroSection({
             {badge && <Badge className="mb-6 bg-secondary text-secondary-foreground px-3 py-1.5">{badge}</Badge>}
             <h1 className="text-4xl md:text-6xl font-light mb-6">{title}</h1>
           </div>
-          <div>{description && <p className="text-lg text-muted-foreground">{description}</p>}</div>
+          <div>
+            {description &&
+              (typeof description === "string" ? (
+                <p className="text-lg text-muted-foreground">{description}</p>
+              ) : (
+                <div className="text-lg text-muted-foreground">{description}</div>
+              ))}
+          </div>
         </div>
       </div>
     </section>

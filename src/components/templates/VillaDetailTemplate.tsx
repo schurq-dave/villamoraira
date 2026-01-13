@@ -9,6 +9,7 @@ import { Star, Users, Bed, Bath, MapPin, ArrowLeft, Share, Heart } from "lucide-
 import Link from "next/link"
 import { BookingCalendarClient } from "./BookingCalendarClient"
 import type { UIText } from "@/lib/types/UIText"
+import PortableTextRenderer from "@/components/portable-text-renderer"
 
 interface VillaDetailTemplateProps {
   villa: {
@@ -24,7 +25,7 @@ interface VillaDetailTemplateProps {
     guests: number
     bedrooms: number
     bathrooms: number
-    description: string[]
+    description: unknown[]
     amenities: string[]
     houseRules: {
       checkIn: string
@@ -175,11 +176,9 @@ export function VillaDetailTemplate({ villa, uiText }: VillaDetailTemplateProps)
               {/* Description */}
               <div>
                 <h2 className="text-2xl font-light mb-4">{uiText.villa.aboutHeading}</h2>
-                {villa.description.map((paragraph, index) => (
-                  <p key={index} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
-                    {paragraph}
-                  </p>
-                ))}
+                <div className="text-muted-foreground leading-relaxed">
+                  <PortableTextRenderer value={villa.description} />
+                </div>
               </div>
 
               <Separator />

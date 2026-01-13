@@ -7,8 +7,9 @@ import Link from "next/link"
 import { generatePageMetadata } from "@/lib/seo/metadata"
 import { generateWebPageSchema, generateBreadcrumbSchema } from "@/lib/seo/jsonld"
 import { sanityFetch } from "@/lib/sanity/fetch"
-import { ALL_BLOG_POSTS_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY, FOOTER_QUERY } from "@/lib/sanity/queries"
+import { ALL_BLOG_POSTS_QUERY, ALL_CATEGORIES_QUERY, BLOG_PAGE_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY, FOOTER_QUERY } from "@/lib/sanity/queries"
 import { getUiText, type Locale, normalizeLink, languages } from "@/lib/i18n"
+import PortableTextRenderer from "@/components/portable-text-renderer"
 
 interface BlogPageProps {
   params: Promise<{ lang: Locale }>
@@ -16,15 +17,20 @@ interface BlogPageProps {
 
 export async function generateMetadata({ params }: BlogPageProps) {
   const { lang } = await params
-  const title = lang === "nl" ? "Blog | Villa Moraira" : "Blog | Villa Moraira"
-  const description = lang === "nl" 
-    ? "Lees onze laatste artikelen over Moraira, vakantietips en villa leven."
-    : "Read our latest articles about Moraira, vacation tips, and villa living."
+  const locale = lang as Locale
+
+  const blogPage = await sanityFetch<any>({
+    query: BLOG_PAGE_QUERY,
+    params: { language: locale },
+    tags: ["blogPage"],
+  })
 
   return generatePageMetadata({
-    title,
-    description,
-    path: lang === "nl" ? "/blog" : `/${lang}/blog`,
+    title: blogPage?.seo?.metaTitle || "Blog | Villa Moraira",
+    description: blogPage?.seo?.metaDescription || "",
+    keywords: blogPage?.seo?.keywords || [],
+    path: locale === "nl" ? "/blog" : `/${locale}/blog`,
+    ogImage: blogPage?.seo?.ogImageUrl,
   })
 }
 
@@ -33,11 +39,20 @@ export default async function BlogPage({ params }: BlogPageProps) {
   const locale = lang
   const uiText = getUiText(locale)
 
-  const [blogPosts, settings, navigation, footer] = await Promise.all([
+  const [blogPosts, blogPage, categories, settings, navigation, footer] = await Promise.all([
     sanityFetch<any[]>({
       query: ALL_BLOG_POSTS_QUERY,
       params: { language: locale },
       tags: ["blogPost"],
+    }),
+    sanityFetch<any>({
+      query: BLOG_PAGE_QUERY,
+      params: { language: locale },
+      tags: ["blogPage"],
+    }),
+    sanityFetch<any[]>({
+      query: ALL_CATEGORIES_QUERY,
+      tags: ["category"],
     }),
     sanityFetch<any>({
       query: SITE_SETTINGS_QUERY,
@@ -123,18 +138,17 @@ export default async function BlogPage({ params }: BlogPageProps) {
       <section className="relative py-20 bg-muted">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl">
-            <Badge className="mb-4 bg-secondary text-secondary-foreground py-1.5 px-3">
-              BLOG
-            </Badge>
+            {blogPage?.hero?.badge && (
+              <Badge className="mb-4 bg-secondary text-secondary-foreground py-1.5 px-3">
+                {blogPage.hero.badge}
+              </Badge>
+            )}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6">
-              {locale === "nl" ? "Laatste Artikelen" : "Latest Articles"}
+              {blogPage?.hero?.title || "Blog"}
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              {locale === "nl" 
-                ? "Blijf op de hoogte van onze laatste reisgidsen en villa tips"
-                : "Stay updated with our latest travel guides and villa tips"
-              }
-            </p>
+            <div className="text-xl text-muted-foreground leading-relaxed">
+              <PortableTextRenderer value={blogPage?.hero?.description || []} />
+            </div>
           </div>
         </div>
       </section>
@@ -187,6 +201,28 @@ export default async function BlogPage({ params }: BlogPageProps) {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="py-20 bg-muted">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12">
+            <h2 className="text-3xl font-light mb-6">{blogPage?.categoriesSection?.title || "Categorieën"}</h2>
+            <p className="text-muted-foreground">{blogPage?.categoriesSection?.description || ""}</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {(categories || []).map((category: any) => (
+              <Link
+                key={category._id}
+                href={normalizeLink(`/blog?category=${category.slug}`, locale)}
+                className="border rounded-md py-4 px-3 text-center hover:bg-background transition-colors"
+              >
+                <span className="text-sm font-medium">{category.title}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
