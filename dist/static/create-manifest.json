@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "createdAt": "2026-01-13T14:40:27.570Z",
+  "createdAt": "2026-01-13T14:47:05.850Z",
   "workspaces": [
     {
       "name": "villa-moraira",
@@ -12,7 +12,7 @@
       "mediaLibrary": {
         "enabled": false
       },
-      "schema": "fb5915ab.create-schema.json",
+      "schema": "105b13c0.create-schema.json",
       "tools": "33fd444d.create-tools.json"
     }
   ],

@@ -208,43 +208,6 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'locationHighlights',
-      title: 'Omgeving Moraira',
-      type: 'array',
-      group: 'content',
-      description: 'Voorzieningen in de omgeving (stranden, haven, winkels, etc.)',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'title', type: 'string', title: 'Titel' },
-            { name: 'description', type: 'string', title: 'Beschrijving' },
-            { name: 'distance', type: 'string', title: 'Afstand (optioneel)' },
-            {
-              name: 'icon',
-              type: 'string',
-              title: 'Icoon',
-              options: {
-                list: [
-                  { title: 'Strand', value: 'beach' },
-                  { title: 'Haven', value: 'anchor' },
-                  { title: 'Restaurant', value: 'utensils' },
-                  { title: 'Winkel', value: 'shopping-bag' },
-                  { title: 'Wandelen', value: 'footprints' },
-                  { title: 'Golf', value: 'golf' },
-                  { title: 'Tennis', value: 'tennis' },
-                  { title: 'Monument', value: 'landmark' },
-                ],
-              },
-            },
-          ],
-          preview: {
-            select: { title: 'title', subtitle: 'distance' },
-          },
-        },
-      ],
-    }),
-    defineField({
       name: 'houseRules',
       title: 'House Rules',
       type: 'array',

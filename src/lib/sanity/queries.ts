@@ -487,12 +487,6 @@ export const VILLA_BY_SLUG_QUERY = groq`
       title,
       description
     },
-    locationHighlights[]{
-      title,
-      description,
-      distance,
-      icon
-    },
     houseRules,
     featured,
     availability
