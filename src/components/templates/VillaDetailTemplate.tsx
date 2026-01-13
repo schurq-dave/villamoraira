@@ -54,7 +54,7 @@ interface Highlight {
   _key: string
   icon: string
   title: string
-  description: unknown[] // Portable text
+  description: unknown[] | string // Portable text OR plain text (for backward compatibility)
 }
 
 interface VillaDetailTemplateProps {
@@ -249,7 +249,13 @@ export function VillaDetailTemplate({ villa, uiText }: VillaDetailTemplateProps)
                             </CardHeader>
                             <CardContent className="pt-0">
                               <div className="text-sm text-muted-foreground leading-relaxed prose prose-sm max-w-none">
-                                <PortableTextRenderer value={highlight.description} />
+                                {typeof highlight.description === 'string' ? (
+                                  // Plain text (existing data) - render with line breaks
+                                  <div className="whitespace-pre-line">{highlight.description}</div>
+                                ) : (
+                                  // Portable text (new data)
+                                  <PortableTextRenderer value={highlight.description} />
+                                )}
                               </div>
                             </CardContent>
                           </Card>
