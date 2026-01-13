@@ -134,7 +134,7 @@ export default async function VillaDetailPage({
     bathrooms: villa.capacity?.bathrooms || 0,
     // On detail pages we render the full portable-text description.
     description: villa.fullDescription || [],
-    amenities: villa.amenities?.map((a: any) => a.name) || [],
+    highlights: villa.highlights || [],
     houseRules: {
       checkIn: villa.houseRules?.[0] || "Na 16:00 uur",
       checkOut: villa.houseRules?.[1] || "Voor 10:00 uur",

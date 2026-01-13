@@ -18,7 +18,7 @@ export const uiText: UIText = {
   },
   villa: {
     aboutHeading: "About this villa",
-    amenitiesHeading: "Amenities",
+    highlightsHeading: "Highlights",
     houseRulesHeading: "House Rules",
     reviewsHeading: "Reviews",
     viewAllPhotos: "View All Photos",

@@ -19,7 +19,7 @@ const uiTextNL: UIText = {
   },
   villa: {
     aboutHeading: 'Over deze villa',
-    amenitiesHeading: 'Voorzieningen',
+    highlightsHeading: 'Kenmerken',
     houseRulesHeading: 'Huisregels',
     reviewsHeading: 'Reviews',
     viewAllPhotos: 'Bekijk Alle Foto\'s',
@@ -133,7 +133,7 @@ const uiTextEN: UIText = {
   },
   villa: {
     aboutHeading: 'About this villa',
-    amenitiesHeading: 'Amenities',
+    highlightsHeading: 'Highlights',
     houseRulesHeading: 'House Rules',
     reviewsHeading: 'Reviews',
     viewAllPhotos: 'View All Photos',

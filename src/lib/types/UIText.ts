@@ -16,7 +16,7 @@ export interface UIText {
   }
   villa: {
     aboutHeading: string
-    amenitiesHeading: string
+    highlightsHeading: string
     houseRulesHeading: string
     reviewsHeading: string
     viewAllPhotos: string

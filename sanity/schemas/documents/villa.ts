@@ -159,13 +159,47 @@ export default defineType({
       title: 'Highlights',
       type: 'array',
       group: 'content',
+      description: 'Belangrijkste kenmerken en voorzieningen van de villa',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'icon', type: 'string', title: 'Icon Name' },
-            { name: 'title', type: 'string', title: 'Title' },
-            { name: 'description', type: 'text', title: 'Description' },
+            {
+              name: 'icon',
+              type: 'string',
+              title: 'Icoon',
+              options: {
+                list: [
+                  { title: 'Locatie / Huis', value: 'map-pin' },
+                  { title: 'Ster / Premium', value: 'star' },
+                  { title: 'Zon / Buiten', value: 'sun' },
+                  { title: 'Sport / Activiteiten', value: 'dumbbell' },
+                  { title: 'Auto / Parkeren', value: 'car' },
+                  { title: 'Zwembad', value: 'waves' },
+                  { title: 'Wifi', value: 'wifi' },
+                  { title: 'Airco', value: 'snowflake' },
+                  { title: 'Verwarming', value: 'flame' },
+                  { title: 'Bed / Slaapkamer', value: 'bed' },
+                  { title: 'Keuken', value: 'utensils' },
+                  { title: 'Tuin', value: 'tree' },
+                  { title: 'Uitzicht', value: 'mountain' },
+                  { title: 'Huisdieren', value: 'paw-print' },
+                  { title: 'Familie', value: 'users' },
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Titel',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'description',
+              type: 'portableText',
+              title: 'Beschrijving',
+            },
           ],
           preview: {
             select: { title: 'title', subtitle: 'icon' },

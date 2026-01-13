@@ -2,14 +2,60 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { AmenitiesList } from "@/components/lists/AmenitiesList"
 import { ChecklistGrid } from "@/components/lists/ChecklistGrid"
 import { ImageGallery } from "@/components/villa/ImageGallery"
-import { Star, Users, Bed, Bath, MapPin, ArrowLeft, Share, Heart } from "lucide-react"
+import {
+  Star,
+  Users,
+  Bed,
+  Bath,
+  MapPin,
+  ArrowLeft,
+  Share,
+  Heart,
+  Sun,
+  Car,
+  Waves,
+  Wifi,
+  Snowflake,
+  Flame,
+  Utensils,
+  TreePine,
+  Mountain,
+  PawPrint,
+  Dumbbell,
+  type LucideIcon,
+} from "lucide-react"
 import Link from "next/link"
 import { BookingCalendarClient } from "./BookingCalendarClient"
 import type { UIText } from "@/lib/types/UIText"
 import PortableTextRenderer from "@/components/portable-text-renderer"
+
+// Icon mapping for highlights
+const iconMap: Record<string, LucideIcon> = {
+  'map-pin': MapPin,
+  'star': Star,
+  'sun': Sun,
+  'dumbbell': Dumbbell,
+  'car': Car,
+  'waves': Waves,
+  'wifi': Wifi,
+  'snowflake': Snowflake,
+  'flame': Flame,
+  'bed': Bed,
+  'utensils': Utensils,
+  'tree': TreePine,
+  'mountain': Mountain,
+  'paw-print': PawPrint,
+  'users': Users,
+}
+
+interface Highlight {
+  _key: string
+  icon: string
+  title: string
+  description: unknown[] // Portable text
+}
 
 interface VillaDetailTemplateProps {
   villa: {
@@ -26,7 +72,7 @@ interface VillaDetailTemplateProps {
     bedrooms: number
     bathrooms: number
     description: unknown[]
-    amenities: string[]
+    highlights: Highlight[]
     houseRules: {
       checkIn: string
       checkOut: string
@@ -183,12 +229,38 @@ export function VillaDetailTemplate({ villa, uiText }: VillaDetailTemplateProps)
 
               <Separator />
 
-              <div>
-                <h2 className="text-2xl font-light mb-4">{uiText.villa.amenitiesHeading}</h2>
-                <AmenitiesList amenities={villa.amenities} columns={2} />
-              </div>
+              {/* Highlights Section */}
+              {villa.highlights && villa.highlights.length > 0 && (
+                <>
+                  <div>
+                    <h2 className="text-2xl font-light mb-6">{uiText.villa.highlightsHeading || "Kenmerken"}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {villa.highlights.map((highlight) => {
+                        const IconComponent = iconMap[highlight.icon] || Star
+                        return (
+                          <Card key={highlight._key} className="p-0 border-0 shadow-none bg-muted/50">
+                            <CardHeader className="pb-2">
+                              <div className="flex items-center gap-3">
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+                                  <IconComponent className="h-5 w-5 text-primary" />
+                                </div>
+                                <CardTitle className="text-lg font-medium">{highlight.title}</CardTitle>
+                              </div>
+                            </CardHeader>
+                            <CardContent className="pt-0">
+                              <div className="text-sm text-muted-foreground leading-relaxed prose prose-sm max-w-none">
+                                <PortableTextRenderer value={highlight.description} />
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
+                    </div>
+                  </div>
+                  <Separator />
+                </>
+              )}
 
-              <Separator />
 
               <div>
                 <h2 className="text-2xl font-light mb-4">{uiText.villa.houseRulesHeading}</h2>
