@@ -23,7 +23,7 @@ export function AttractionCard({
   badge,
 }: AttractionCardProps) {
   return (
-    <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300">
+    <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 p-0 gap-0">
       <div className="relative h-40 sm:h-44 md:h-48 overflow-hidden">
         <Image
           src={image || "/placeholder.svg"}
