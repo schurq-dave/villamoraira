@@ -153,27 +153,73 @@ export default async function BlogPage({ params }: BlogPageProps) {
         </div>
       </section>
 
+      {/* Featured Post */}
+      {blogPosts && blogPosts.length > 0 && (
+        <section className="py-20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="mb-12">
+              <h2 className="text-3xl font-light mb-2">
+                {blogPage?.featuredSection?.title || (locale === "nl" ? "Uitgelicht" : "Featured")}
+              </h2>
+              <p className="text-muted-foreground">{blogPage?.featuredSection?.description || ""}</p>
+            </div>
+
+            <Link href={normalizeLink(`/blog/${blogPosts[0].slug}`, locale)} className="block group">
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow p-0">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  <div className="relative h-64 lg:h-80">
+                    <Image
+                      src={blogPosts[0].mainImageUrl || "/placeholder.svg"}
+                      alt={blogPosts[0].mainImageAlt || blogPosts[0].title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-6 lg:p-10">
+                    <CardTitle className="text-2xl lg:text-3xl line-clamp-2 mb-3">{blogPosts[0].title}</CardTitle>
+                    <CardDescription className="mb-4">
+                      {blogPosts[0].publishedAt ? new Date(blogPosts[0].publishedAt).toLocaleDateString(
+                        locale === "nl" ? "nl-NL" : "en-US",
+                        { year: "numeric", month: "long", day: "numeric" }
+                      ) : ""}
+                    </CardDescription>
+                    <p className="text-muted-foreground line-clamp-3">{blogPosts[0].excerpt}</p>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* Blog Posts Grid */}
-      <section className="py-20">
+      <section className="py-20 bg-muted">
         <div className="max-w-7xl mx-auto px-6">
-          {(!blogPosts || blogPosts.length === 0) ? (
+          <div className="mb-12">
+            <h2 className="text-3xl font-light mb-2">
+              {blogPage?.latestSection?.title || (locale === "nl" ? "Laatste artikelen" : "Latest Articles")}
+            </h2>
+            <p className="text-muted-foreground">{blogPage?.latestSection?.description || ""}</p>
+          </div>
+
+          {(!blogPosts || blogPosts.length <= 1) ? (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg">
                 {locale === "nl" 
-                  ? "Er zijn nog geen blog posts beschikbaar."
-                  : "No blog posts available yet."
+                  ? "Er zijn nog geen andere artikelen beschikbaar."
+                  : "No other articles available yet."
                 }
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post: any) => (
+              {blogPosts.slice(1).map((post: any) => (
                 <Link 
                   key={post._id} 
                   href={normalizeLink(`/blog/${post.slug}`, locale)}
                   className="block group"
                 >
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <Card className="overflow-hidden hover:shadow-lg transition-shadow p-0">
                     <div className="relative h-48">
                       <Image
                         src={post.mainImageUrl || "/placeholder.svg"}

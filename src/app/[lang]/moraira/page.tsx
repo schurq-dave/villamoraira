@@ -174,9 +174,9 @@ export default async function MorairaPage({ params }: MorairaPageProps) {
               introduction.paragraphs.length > 0 &&
               typeof introduction.paragraphs[0] === "string" ? (
                 introduction.paragraphs.map((paragraph: string, index: number) => (
-                  <p key={index} className="text-muted-foreground leading-relaxed mb-6">
-                    {paragraph}
-                  </p>
+                <p key={index} className="text-muted-foreground leading-relaxed mb-6">
+                  {paragraph}
+                </p>
                 ))
               ) : (
                 <div className="text-muted-foreground leading-relaxed">
@@ -212,7 +212,7 @@ export default async function MorairaPage({ params }: MorairaPageProps) {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6">{attractions?.title || ""}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl">{attractions?.description || ""}</p>
           </div>
-            <div className="lg:hidden">
+          <div className="lg:hidden">
             <Carousel
               opts={{
                 align: "start",

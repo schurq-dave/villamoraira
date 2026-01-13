@@ -143,30 +143,30 @@ export default async function BlogPage() {
             </div>
 
             <Link href={`/blog/${featuredPost.slug}`} className="block group">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative h-64">
-                  <Image
-                    src={featuredPost.mainImageUrl || "/placeholder.svg"}
-                    alt={featuredPost.mainImageAlt || featuredPost.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow p-0">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  <div className="relative h-64 lg:h-80">
+                    <Image
+                      src={featuredPost.mainImageUrl || "/placeholder.svg"}
+                      alt={featuredPost.mainImageAlt || featuredPost.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-6 lg:p-10">
+                    <CardTitle className="text-2xl lg:text-3xl line-clamp-2 mb-3">{featuredPost.title}</CardTitle>
+                    <CardDescription className="mb-4">
+                      {featuredPost.publishedAt
+                        ? new Date(featuredPost.publishedAt).toLocaleDateString("nl-NL", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })
+                        : ""}
+                    </CardDescription>
+                    <p className="text-muted-foreground line-clamp-3">{featuredPost.excerpt}</p>
+                  </div>
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-2xl line-clamp-2">{featuredPost.title}</CardTitle>
-                  <CardDescription>
-                    {featuredPost.publishedAt
-                      ? new Date(featuredPost.publishedAt).toLocaleDateString("nl-NL", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })
-                      : ""}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{featuredPost.excerpt}</p>
-                </CardContent>
               </Card>
             </Link>
           </div>
@@ -189,7 +189,7 @@ export default async function BlogPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {regularPosts.map((post: any) => (
                 <Link key={post._id} href={`/blog/${post.slug}`} className="block group">
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <Card className="overflow-hidden hover:shadow-lg transition-shadow p-0">
                     <div className="relative h-48">
                       <Image
                         src={post.mainImageUrl || "/placeholder.svg"}

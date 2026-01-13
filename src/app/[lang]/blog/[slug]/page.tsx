@@ -23,11 +23,11 @@ import {
   NAVIGATION_QUERY,
   FOOTER_QUERY,
 } from "@/lib/sanity/queries"
-import { getUiText, normalizeLink, languages, type Locale } from "@/lib/i18n"
+import { getUiText, normalizeLink, languages, type Locale, i18nConfig } from "@/lib/i18n"
 import PortableTextRenderer from "@/components/portable-text-renderer"
 
 interface BlogPostPageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ lang: string; slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -36,15 +36,15 @@ export async function generateStaticParams() {
     tags: ["blogPost"],
   })
 
-  // Only return NL slugs for this route (EN uses /[lang]/blog/[slug])
+  // Only return non-default locale slugs for this route
   return (slugs || [])
-    .filter((item) => item.language === "nl")
-    .map((item) => ({ slug: item.slug }))
+    .filter((item) => item.language !== i18nConfig.defaultLocale)
+    .map((item) => ({ lang: item.language, slug: item.slug }))
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
-  const { slug } = await params
-  const locale: Locale = "nl"
+  const { lang, slug } = await params
+  const locale = lang as Locale
 
   const blogPost = await sanityFetch<any>({
     query: BLOG_POST_BY_SLUG_QUERY,
@@ -54,9 +54,9 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
   if (!blogPost) {
     return generatePageMetadata({
-      title: "Artikel niet gevonden | Villa Moraira",
-      description: "Het gevraagde artikel kon niet worden gevonden.",
-      path: "/blog",
+      title: "Article not found | Villa Moraira",
+      description: "The requested article could not be found.",
+      path: `/${locale}/blog`,
     })
   }
 
@@ -64,14 +64,14 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     title: blogPost.seo?.metaTitle || `${blogPost.title} | Villa Moraira Blog`,
     description: blogPost.seo?.metaDescription || blogPost.excerpt || "",
     keywords: blogPost.seo?.keywords || [],
-    path: `/blog/${blogPost.slug}`,
+    path: `/${locale}/blog/${blogPost.slug}`,
     ogImage: blogPost.seo?.ogImageUrl || blogPost.mainImageUrl,
   })
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params
-  const locale: Locale = "nl"
+  const { lang, slug } = await params
+  const locale = lang as Locale
   const uiText = getUiText(locale)
 
   const [blogPost, settings, navigation, footer] = await Promise.all([
@@ -135,6 +135,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const siteUrl = settings?.siteUrl || "https://villamorairahuren.nl"
+  const blogPath = locale === "nl" ? "/blog" : `/${locale}/blog`
 
   const articleSchema = generateArticleSchema({
     title: blogPost.title,
@@ -158,16 +159,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: uiText.common.home, url: siteUrl },
-    { name: "Blog", url: `${siteUrl}/blog` },
-    { name: blogPost.title, url: `${siteUrl}/blog/${blogPost.slug}` },
+    { name: "Blog", url: `${siteUrl}${blogPath}` },
+    { name: blogPost.title, url: `${siteUrl}${blogPath}/${blogPost.slug}` },
   ])
 
   const formattedDate = blogPost.publishedAt
-    ? new Date(blogPost.publishedAt).toLocaleDateString("nl-NL", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+    ? new Date(blogPost.publishedAt).toLocaleDateString(
+        locale === "nl" ? "nl-NL" : "en-US",
+        { year: "numeric", month: "long", day: "numeric" }
+      )
     : ""
 
   return (
@@ -190,11 +190,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">{uiText.common.home}</BreadcrumbLink>
+                <BreadcrumbLink href={normalizeLink("/", locale)}>{uiText.common.home}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
+                <BreadcrumbLink href={normalizeLink("/blog", locale)}>Blog</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -208,7 +208,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Back Button */}
       <section className="py-6">
         <div className="max-w-7xl mx-auto px-6">
-          <Link href="/blog">
+          <Link href={normalizeLink("/blog", locale)}>
             <Button variant="ghost" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
               {uiText.blog.backToBlog}
@@ -245,11 +245,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             )}
             <div className="flex items-center">
               <Clock className="h-4 w-4 mr-2" />
-              <span className="text-sm">5 min leestijd</span>
+              <span className="text-sm">{locale === "nl" ? "5 min leestijd" : "5 min read"}</span>
             </div>
             <Button variant="ghost" size="sm" className="ml-auto">
               <Share2 className="h-4 w-4 mr-2" />
-              Delen
+              {locale === "nl" ? "Delen" : "Share"}
             </Button>
           </div>
 
@@ -287,3 +287,4 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     </div>
   )
 }
+

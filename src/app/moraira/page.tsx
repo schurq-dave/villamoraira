@@ -167,9 +167,9 @@ export default async function MorairaPage() {
               introduction.paragraphs.length > 0 &&
               typeof introduction.paragraphs[0] === "string" ? (
                 introduction.paragraphs.map((paragraph: string, index: number) => (
-                  <p key={index} className="text-muted-foreground leading-relaxed mb-6">
-                    {paragraph}
-                  </p>
+                <p key={index} className="text-muted-foreground leading-relaxed mb-6">
+                  {paragraph}
+                </p>
                 ))
               ) : (
                 <div className="text-muted-foreground leading-relaxed">
@@ -235,20 +235,20 @@ export default async function MorairaPage() {
             </Carousel>
           </div>
 
-            <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {attractions?.items?.map((attraction: any, index: number) => (
-                <AttractionCard
-                  key={index}
+          <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {attractions?.items?.map((attraction: any, index: number) => (
+              <AttractionCard
+                key={index}
                   title={attraction.title}
                   description={attraction.description}
                   image={attraction.imageUrl}
                   imageAlt={attraction.imageAlt}
                   distance={attraction.distance}
                   badge={attraction.badge}
-                  icon={attraction.icon === "waves" ? Waves : attraction.icon === "mountain" ? Mountain : Camera}
-                />
-              ))}
-            </div>
+                icon={attraction.icon === "waves" ? Waves : attraction.icon === "mountain" ? Mountain : Camera}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
